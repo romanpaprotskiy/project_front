@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import Login from "./component/login/login";
+import Login from "./component/login/Login";
 import {BrowserRouter} from "react-router-dom";
 
 function App() {
