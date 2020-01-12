@@ -7,6 +7,7 @@ import loginBackground from '../../assets/login_back.jpg';
 import loginIcon from '../../assets/login.svg';
 import Container from "@material-ui/core/Container";
 import Success from "../snackbar/Success";
+import {withRouter} from "react-router-dom";
 
 export class Login extends React.Component {
 
@@ -23,6 +24,7 @@ export class Login extends React.Component {
         this.authorize = this.authorize.bind(this);
         this.showSuccess = this.showSuccess.bind(this);
         this.hideSuccess = this.hideSuccess.bind(this);
+        this.setAuth = this.setAuth.bind(this);
     }
 
     mainStyle = {
@@ -109,21 +111,28 @@ export class Login extends React.Component {
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
                        handleClose={this.hideAlert}/>
-                <Success isOpen = {this.state.successOpen}
+                <Success isOpen={this.state.successOpen}
                          successMessage={this.state.successMessage}
                          handleClose={this.hideSuccess}/>
             </div>
         );
     }
 
-    async authorize(authorizationCode, redirectUri) {
-        await axios.post(Urls.BASE_URL + '/social/signin/google',
+    setAuth(response) {
+        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
+        localStorage.setItem("expiryDate", response.expiryDate);
+        localStorage.setItem("auth", JSON.stringify(response.authorities));
+    }
+
+    authorize(authorizationCode, redirectUri) {
+        axios.post(Urls.BASE_URL + '/social/signin/google',
             {authCode: authorizationCode, redirectUri: redirectUri})
             .then(response => response.data)
-            .then(response => localStorage.setItem("auth", JSON.stringify(response)))
+            .then(response => this.setAuth(response))
             .then(this.showSuccess)
             .catch(reason => this.showAlert(reason.toString()));
     }
 }
 
-export default Login;
+export default withRouter(Login);

@@ -1,11 +1,14 @@
 import React from 'react';
 import Login from "./component/login/Login";
+import {Route, Switch} from "react-router";
 
-class App extends React.Component{
+class App extends React.Component {
 
     render() {
         return (
-            <Login/>
+            <Switch>
+                <Route exact path="/" component={Login}/>
+            </Switch>
         );
     }
 }
