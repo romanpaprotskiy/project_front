@@ -32,7 +32,9 @@ export class Login extends React.Component {
         justifyContent: "center",
         alignItems: "center",
         backgroundImage: `url(${loginBackground})`,
-        backgroundSize: "100%",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
         height: "100vh"
     };
 
@@ -96,7 +98,7 @@ export class Login extends React.Component {
                 <Container maxWidth="xs">
                     <div style={this.loginBlockStyle}>
                         <img src={loginIcon} alt="Not found" style={this.loginIconStyle}/>
-                        <h1 style={this.loginTextStyle}>Login</h1>
+                        <h1 style={this.loginTextStyle}>SignIn</h1>
                         <div style={this.googleLoginStyle}>
                             <GoogleLogin
                                 clientId="217658242103-pv74qrnmoku2aqhtgre77kutpfuk1sqe.apps.googleusercontent.com"
