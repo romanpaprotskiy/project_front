@@ -17,7 +17,7 @@ export class Login extends React.Component {
             alertOpen: false,
             alertMessage: 'Authorize failed',
             successOpen: false,
-            successMessage: "Authorize success"
+            successMessage: "Authorize success",
         };
         this.showAlert = this.showAlert.bind(this);
         this.hideAlert = this.hideAlert.bind(this);
@@ -25,6 +25,7 @@ export class Login extends React.Component {
         this.showSuccess = this.showSuccess.bind(this);
         this.hideSuccess = this.hideSuccess.bind(this);
         this.setAuth = this.setAuth.bind(this);
+        this.redirectToMain = this.redirectToMain.bind(this);
     }
 
     mainStyle = {
@@ -92,6 +93,10 @@ export class Login extends React.Component {
         });
     }
 
+    redirectToMain() {
+        this.props.history.push("/main");
+    }
+
     render() {
         return (
             <div style={this.mainStyle}>
@@ -133,6 +138,7 @@ export class Login extends React.Component {
             .then(response => response.data)
             .then(response => this.setAuth(response))
             .then(this.showSuccess)
+            .then(this.redirectToMain)
             .catch(reason => this.showAlert(reason.toString()));
     }
 }
