@@ -1,4 +1,5 @@
 import {Tab} from "./Tab";
+import Urls from "../../url";
 
 export class SecurityService {
 
@@ -8,7 +9,7 @@ export class SecurityService {
     }
 
     _tabs = [
-        new Tab("Profile", ["GUEST", "STUDENT", "TEACHER", "ADMIN"])
+        new Tab("Profile", ["GUEST", "STUDENT", "TEACHER", "ADMIN"], Urls.ROOT_URL + "/assets/profile.svg")
     ];
 
     currentUserTabs() {
