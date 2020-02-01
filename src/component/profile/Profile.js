@@ -1,10 +1,10 @@
 import * as React from "react";
-import ProfileHeader from "./ProfileHeader";
 import {withRouter} from "react-router-dom";
 import axios from "axios";
 import Urls from "../../url";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
+import Errors from "../error/Errors";
 
 class Profile extends React.Component {
 
@@ -34,28 +34,19 @@ class Profile extends React.Component {
         });
     }
 
-    getErrorMessage(error) {
-        if (error.response) {
-            return error.response.data.message;
-        } else return error.toString();
-    }
-
     getCurrentUserProfile() {
         const accessToken = localStorage.getItem("accessToken");
-        console.log(accessToken);
-        return axios.get(Urls.BASE_URL + '/profile/current', {
+        return axios.get(Urls.BASE_V1_URL + '/profile/current', {
             headers: {
                 Authorization: "Bearer " + accessToken
             }
         })
-            .then(response => console.log(response))
-            .catch(error => this.showAlert(this.getErrorMessage(error)));
+            .catch(error => this.showAlert(Errors.getErrorMessage(error)));
     }
 
     render() {
         return (
             <Grid container spacing={3}>
-                <ProfileHeader/>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
                        handleClose={this.hideAlert}/>

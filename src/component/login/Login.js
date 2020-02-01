@@ -1,15 +1,18 @@
 import React from "react";
 import GoogleLogin from 'react-google-login';
 import Urls from "../../url";
-import axios from "axios";
 import Alert from "../snackbar/Alert";
 import loginBackground from '../../assets/login_back.jpg';
 import loginIcon from '../../assets/login.svg';
 import Container from "@material-ui/core/Container";
 import Success from "../snackbar/Success";
 import {withRouter} from "react-router-dom";
+import Errors from "../error/Errors";
+import {ServiceProvider} from "../service/ServiceProvider";
 
 export class Login extends React.Component {
+
+    loginService;
 
     constructor(props) {
         super(props);
@@ -26,6 +29,9 @@ export class Login extends React.Component {
         this.hideSuccess = this.hideSuccess.bind(this);
         this.setAuth = this.setAuth.bind(this);
         this.redirectToMain = this.redirectToMain.bind(this);
+
+        const provider = ServiceProvider.provider();
+        this.loginService = provider.getService(provider.service.LOGIN_SERVICE);
     }
 
     mainStyle = {
@@ -111,7 +117,7 @@ export class Login extends React.Component {
                                 onSuccess={r => {
                                     this.authorize(r.code, Urls.ROOT_URL)
                                 }}
-                                onFailure={reason => this.showAlert(reason.toString())}/>
+                                onFailure={reason => this.showAlert(Errors.getErrorMessage(reason))}/>
                         </div>
                     </div>
                 </Container>
@@ -132,9 +138,8 @@ export class Login extends React.Component {
         localStorage.setItem("auth", JSON.stringify(response.authorities));
     }
 
-    authorize(authorizationCode, redirectUri) {
-        axios.post(Urls.BASE_URL + '/social/signin/google',
-            {authCode: authorizationCode, redirectUri: redirectUri})
+    authorize(authorizationCode) {
+        this.loginService.authorize(authorizationCode)
             .then(response => response.data)
             .then(response => this.setAuth(response))
             .then(this.showSuccess)
