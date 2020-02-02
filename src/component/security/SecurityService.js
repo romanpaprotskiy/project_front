@@ -9,7 +9,8 @@ export class SecurityService {
     }
 
     _tabs = [
-        new Tab("Profile", ["GUEST", "STUDENT", "TEACHER", "ADMIN"], Urls.ROOT_URL + "/assets/profile.svg")
+        new Tab("Profile", ["GUEST", "STUDENT", "TEACHER", "ADMIN"],
+            Urls.ROOT_URL + "/assets/profile.svg","/main")
     ];
 
     currentUserTabs() {

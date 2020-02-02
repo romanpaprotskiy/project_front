@@ -144,7 +144,7 @@ export class Login extends React.Component {
             .then(response => this.setAuth(response))
             .then(this.showSuccess)
             .then(this.redirectToMain)
-            .catch(reason => this.showAlert(reason.toString()));
+            .catch(reason => this.showAlert(Errors.getErrorMessage(reason)));
     }
 }
 

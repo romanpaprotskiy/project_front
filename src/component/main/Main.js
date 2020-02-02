@@ -2,10 +2,11 @@ import * as React from "react";
 import {withRouter} from "react-router-dom";
 import Profile from "../profile/Profile";
 import Sidebar from "./Sidebar";
-import {Container} from "@material-ui/core";
 import Errors from "../error/Errors";
 import {ServiceProvider} from "../service/ServiceProvider";
 import Alert from "../snackbar/Alert";
+import {CircularProgress} from "@material-ui/core";
+import loginBackground from "../../assets/login_back.jpg";
 
 class Main extends React.Component {
 
@@ -22,10 +23,19 @@ class Main extends React.Component {
         };
     }
 
+    redirectToLogin() {
+        setTimeout( () => {
+            this.props.history.push("/");
+        }, 3000);
+    }
+
     componentDidMount() {
         this.profileService.getCurrentUserProfile()
             .then(response => response.data.user)
-            .catch(error => this.showAlert(Errors.getErrorMessage(error)))
+            .catch(error => {
+                this.showAlert(Errors.getErrorMessage(error));
+                this.redirectToLogin();
+            })
             .then(data => this.setState({
                 user: data
             }));
@@ -44,16 +54,49 @@ class Main extends React.Component {
         });
     }
 
+    progressBackgroundStyle = {
+        filter: "blur(8px)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage: `url(${loginBackground})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "100vh"
+    };
+
+    progressStyle = {
+        position: "absolute",
+        top: "42%",
+        left: "42%",
+        zIndex: "2",
+        marginLeft: "auto",
+        marginRight: "auto"
+    };
+
     render() {
-        return (
-            <Container>
-                {this.state.user ? <Sidebar user={this.state.user}/> : <h1>Wait</h1>}
-                <Profile/>
-                <Alert isOpen={this.state.alertOpen}
-                       alertMessage={this.state.alertMessage}
-                       handleClose={this.hideAlert}/>
-            </Container>
-        );
+        if (this.state.user)
+            return (
+                <div style={{display: "flex"}}>
+                    <Sidebar user={this.state.user}/>
+                    <Profile/>
+                    <Alert isOpen={this.state.alertOpen}
+                           alertMessage={this.state.alertMessage}
+                           handleClose={this.hideAlert}/>
+                </div>
+            );
+        else {
+            return (
+                <div>
+                    <div className="background" style={this.progressBackgroundStyle}/>
+                    <CircularProgress size={125} style={this.progressStyle}/>
+                    <Alert isOpen={this.state.alertOpen}
+                           alertMessage={this.state.alertMessage}
+                           handleClose={this.hideAlert}/>
+                </div>
+            );
+        }
     }
 }
 

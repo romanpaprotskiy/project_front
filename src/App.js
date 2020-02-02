@@ -7,10 +7,12 @@ class App extends React.Component {
 
     render() {
         return (
-            <Switch>
-                <Route exact path="/" component={Login}/>
-                <Route path="/main" component={Main}/>
-            </Switch>
+            <div>
+                <Switch>
+                    <Route exact path="/" component={Login}/>
+                    <Route path="/main" component={Main}/>
+                </Switch>
+            </div>
         );
     }
 }

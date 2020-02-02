@@ -9,6 +9,10 @@ import Grid from "@material-ui/core/Grid";
 import Divider from '@material-ui/core/Divider';
 import {ListItemIcon} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
+import Urls from "../../url";
+import {withRouter} from "react-router";
+import sidebarBackGround from '../../assets/sidebarBackground.jpeg';
+
 
 export class Sidebar extends React.Component {
 
@@ -21,38 +25,59 @@ export class Sidebar extends React.Component {
     }
 
     avatarStyle = {
-        width: "25%",
-        margin: "5%",
+        margin: "10px",
+        width: "15vh",
         borderRadius: "50%",
         boxShadow: "0 0 10px rgba(0,0,0,0.5)"
     };
 
+    drawerStyle = {
+        width: "27vh",
+        backgroundImage: `url(${sidebarBackGround})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "100vh"
+    };
+
     render() {
         return (
-            <div>
+            <div style={{display: "flex"}}>
                 <CssBaseline/>
                 <Drawer variant="permanent" anchor="left">
-                    <Grid container>
-                        <Grid item>
-                            <img alt="Empty" src={this.props.user.pictureUrl} style={this.avatarStyle}/>
-                            <Typography variant="h6" color="textPrimary">
-                                {this.props.user.firstName + " " + this.props.user.lastName}
-                            </Typography>
+                    <Grid container direction="column" style={this.drawerStyle}>
+                        <Grid container item direction="column" justify="center" alignItems="center">
+                            <Grid item>
+                                <img alt="Empty" src={this.props.user.pictureUrl} style={this.avatarStyle}/>
+                            </Grid>
+                            <Grid item style={{marginBottom: "10px"}}>
+                                <Typography variant="h6" color="textPrimary">
+                                    {this.props.user.firstName + " " + this.props.user.lastName}
+                                </Typography>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Divider/>
-                    <List>
-                        {this.securityService.currentUserTabs().map((item) => (
-                            <ListItem button key={item.name}>
-                                <ListItemIcon><img src={item.icon} alt="Not found"/></ListItemIcon>
-                                <ListItemText primary={item.name}/>
+                        <Divider/>
+                        <List>
+                            {this.securityService.currentUserTabs().map((item) => (
+                                <ListItem button key={item.name}>
+                                    <ListItemIcon><img src={item.icon} alt="Not found"/></ListItemIcon>
+                                    <ListItemText primary={item.name}/>
+                                </ListItem>
+                            ))}
+                        </List>
+                        <Divider/>
+                        <List>
+                            <ListItem button onClick={() => this.props.history.push("/")}>
+                                <ListItemIcon><img src={Urls.ROOT_URL + "/assets/signout.svg"}
+                                                   alt="Not found"/></ListItemIcon>
+                                <ListItemText primary="SignOut"/>
                             </ListItem>
-                        ))}
-                    </List>
+                        </List>
+                    </Grid>
                 </Drawer>
             </div>
         );
     }
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);

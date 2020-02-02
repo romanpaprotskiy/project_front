@@ -2,6 +2,7 @@ import * as React from "react";
 import {withRouter} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
+import loginBackground from '../../assets/login_back.jpg';
 
 class Profile extends React.Component {
 
@@ -27,9 +28,20 @@ class Profile extends React.Component {
         });
     }
 
+    mainStyle = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage: `url(${loginBackground})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "100vh"
+    };
+
     render() {
         return (
-            <Grid container spacing={3}>
+            <Grid container style={this.mainStyle}>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
                        handleClose={this.hideAlert}/>

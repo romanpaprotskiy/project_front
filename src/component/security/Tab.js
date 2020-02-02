@@ -2,11 +2,13 @@ export class Tab {
     _name;
     _authority;
     _icon;
+    _redirectUri;
 
-    constructor(name, authority, icon) {
+    constructor(name, authority, icon, redirectUri) {
         this._name = name;
         this._authority = authority;
         this._icon = icon;
+        this._redirectUri = redirectUri;
     }
 
     get name() {
@@ -32,5 +34,14 @@ export class Tab {
 
     set icon(value) {
         this._icon = value;
+    }
+
+
+    get redirectUri() {
+        return this._redirectUri;
+    }
+
+    set redirectUri(value) {
+        this._redirectUri = value;
     }
 }
