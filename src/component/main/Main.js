@@ -78,7 +78,7 @@ class Main extends React.Component {
             return (
                 <div style={{display: "flex"}}>
                     <Sidebar user={this.state.user}/>
-                    <Profile/>
+                    <Profile user={this.state.user}/>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}
                            handleClose={this.hideAlert}/>
