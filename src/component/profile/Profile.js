@@ -3,8 +3,9 @@ import {withRouter} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
 import loginBackground from '../../assets/login_back.jpg';
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import backgroundPaper from '../../assets/sidebarBackground.jpeg';
+import ProfileDetails from "./ProfileDetails";
+import ProfileGeneral from "./ProfileGeneral";
 
 class Profile extends React.Component {
 
@@ -40,7 +41,12 @@ class Profile extends React.Component {
     };
 
     paperStyle = {
-        margin: "5vh"
+        marginLeft: "5vh",
+        marginTop: "5vh",
+        backgroundImage: `url(${backgroundPaper})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
     };
 
     avatarStyle = {
@@ -54,34 +60,11 @@ class Profile extends React.Component {
         return (
             <Grid container direction="column" justify="flex-start" alignItems="flex-start" style={this.mainStyle}>
                 <Grid item container direction="row">
-                    <Paper elevation={5} style={this.paperStyle}>
-                        <Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
-                            <Grid item>
-                                <img alt="Empty" src={this.props.user.pictureUrl} style={this.avatarStyle}/>
-                            </Grid>
-                            <Grid item style={{margin: "2vh"}}>
-                                <Grid item container direction="column">
-                                    <Typography variant="h4" gutterBottom color="textPrimary">
-                                        {this.props.user.firstName + " " + this.props.user.lastName}
-                                    </Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant="h6" gutterBottom color="textSecondary">
-                                        {this.props.user.email}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                    <Paper elevation={5} style={this.paperStyle}>
-                        <Grid container direction="row" xs>
-                            <Grid item container direction="column">
-                                <Typography variant="h6" gutterBottom color="textPrimary">
-                                    Date of birth: {new Date(this.props.user.birthDate).toLocaleDateString()}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </Paper>
+                    <ProfileGeneral user={this.props.data.user} paperStyle={this.paperStyle}
+                                    avatarStyle={this.avatarStyle}/>
+                </Grid>
+                <Grid item container direction="row">
+                    <ProfileDetails paperStyle={this.paperStyle} user={this.props.data.user}/>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}

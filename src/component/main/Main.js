@@ -29,13 +29,13 @@ class Main extends React.Component {
 
     componentDidMount() {
         this.profileService.getCurrentUserProfile()
-            .then(response => response.data.user)
+            .then(response => response.data)
             .catch(error => {
                 this.showAlert(Errors.getErrorMessage(error));
                 this.redirectToLogin();
             })
             .then(data => this.setState({
-                user: data
+                userData: data
             }));
     }
 
@@ -74,11 +74,11 @@ class Main extends React.Component {
     };
 
     render() {
-        if (this.state.user)
+        if (this.state.userData)
             return (
                 <div style={{display: "flex"}}>
-                    <Sidebar user={this.state.user}/>
-                    <Profile user={this.state.user}/>
+                    <Sidebar user={this.state.userData.user}/>
+                    <Profile data={this.state.userData}/>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}
                            handleClose={this.hideAlert}/>
