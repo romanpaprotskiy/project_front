@@ -11,22 +11,20 @@ class Profile extends React.Component {
         this.state = {
             alertOpen: false
         };
-        this.showAlert = this.showAlert.bind(this);
-        this.hideAlert = this.hideAlert.bind(this);
     }
 
-    showAlert(message) {
+    showAlert = (message) => {
         this.setState({
             alertOpen: true
         });
         if (message != null) this.setState({alertMessage: message});
-    }
+    };
 
-    hideAlert() {
+    hideAlert = () => {
         this.setState({
             alertOpen: false
         });
-    }
+    };
 
     mainStyle = {
         display: "flex",

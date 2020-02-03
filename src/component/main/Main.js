@@ -14,8 +14,6 @@ class Main extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.showAlert = this.showAlert.bind(this);
-        this.hideAlert = this.hideAlert.bind(this);
         const provider = ServiceProvider.provider();
         this.profileService = provider.getService(provider.service.PROFILE_SERVICE);
         this.state = {
@@ -41,18 +39,18 @@ class Main extends React.Component {
             }));
     }
 
-    showAlert(message) {
+    showAlert = (message) => {
         this.setState({
             alertOpen: true
         });
         if (message != null) this.setState({alertMessage: message});
-    }
+    };
 
-    hideAlert() {
+    hideAlert = () => {
         this.setState({
             alertOpen: false
         });
-    }
+    };
 
     progressBackgroundStyle = {
         filter: "blur(8px)",

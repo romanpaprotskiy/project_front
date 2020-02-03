@@ -22,13 +22,6 @@ export class Login extends React.Component {
             successOpen: false,
             successMessage: "Authorize success",
         };
-        this.showAlert = this.showAlert.bind(this);
-        this.hideAlert = this.hideAlert.bind(this);
-        this.authorize = this.authorize.bind(this);
-        this.showSuccess = this.showSuccess.bind(this);
-        this.hideSuccess = this.hideSuccess.bind(this);
-        this.setAuth = this.setAuth.bind(this);
-        this.redirectToMain = this.redirectToMain.bind(this);
 
         const provider = ServiceProvider.provider();
         this.loginService = provider.getService(provider.service.LOGIN_SERVICE);
@@ -73,35 +66,35 @@ export class Login extends React.Component {
         alignItems: "center",
     };
 
-    showAlert(message) {
+    showAlert = (message) => {
         this.setState({
             alertOpen: true
         });
         if (message != null) this.setState({alertMessage: message});
-    }
+    };
 
-    hideAlert() {
+    hideAlert = () => {
         this.setState({
             alertOpen: false
         });
-    }
+    };
 
-    showSuccess(message) {
+    showSuccess = (message) => {
         this.setState({
             successOpen: true
         });
         if (message != null) this.setState({successMessage: message});
-    }
+    };
 
-    hideSuccess() {
+    hideSuccess = () => {
         this.setState({
             successOpen: false
         });
-    }
+    };
 
-    redirectToMain() {
+    redirectToMain = () => {
         this.props.history.push("/main");
-    }
+    };
 
     render() {
         return (

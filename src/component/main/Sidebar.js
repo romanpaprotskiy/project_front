@@ -22,6 +22,7 @@ export class Sidebar extends React.Component {
         super(props, context);
         const provider = ServiceProvider.provider();
         this.securityService = provider.getService(provider.service.SECURITY_SERVICE);
+        console.log(Urls.ROOT_URL);
     }
 
     avatarStyle = {
