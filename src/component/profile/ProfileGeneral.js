@@ -6,12 +6,23 @@ import Avatar from "@material-ui/core/Avatar";
 import MailIcon from "@material-ui/icons/Mail";
 import Fab from "@material-ui/core/Fab";
 import EditIcon from "@material-ui/icons/Edit";
+import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 
 export class ProfileGeneral extends React.Component {
 
+    paperStyle = {
+        marginLeft: "5vh",
+        marginTop: "5vh",
+        width: "100%",
+        backgroundImage: `url(${backgroundPaper})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+    };
+
     render() {
         return (
-            <Paper elevation={5} style={this.props.paperStyle}>
+            <Paper elevation={5} style={this.paperStyle}>
                 <Grid container spacing={1} direction="row" justify="flex-start" alignItems="flex-start">
                     <Grid item>
                         <img alt="Empty" src={this.props.user.pictureUrl} style={this.props.avatarStyle}/>

@@ -73,12 +73,23 @@ class Main extends React.Component {
         marginRight: "auto"
     };
 
+    mainStyle = {
+        display: "flex",
+        backgroundImage: `url(${loginBackground})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "100vh",
+        marginLeft: "27vh",
+        width: "calc(100% - 27vh)"
+    };
+
     render() {
         if (this.state.userData)
             return (
                 <div style={{display: "flex"}}>
                     <Sidebar user={this.state.userData.user}/>
-                    <Profile data={this.state.userData}/>
+                    <Profile data={this.state.userData} mainStyle={this.mainStyle}/>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}
                            handleClose={this.hideAlert}/>

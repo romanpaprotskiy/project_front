@@ -9,12 +9,22 @@ import EventIcon from "@material-ui/icons/Event";
 import {ListItemText} from "@material-ui/core";
 import PhoneIcon from "@material-ui/icons/Phone";
 import ChatIcon from "@material-ui/icons/Chat";
+import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 
 export class ProfileDetails extends React.Component {
 
+    paperStyle = {
+        marginLeft: "5vh",
+        marginTop: "5vh",
+        backgroundImage: `url(${backgroundPaper})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover"
+    };
+
     render() {
         return (
-            <Paper elevation={5} style={this.props.paperStyle}>
+            <Paper elevation={5} style={this.paperStyle}>
                 <Grid container direction="row" xs style={{margin: "2vh"}}>
                     <List>
                         <ListItem>

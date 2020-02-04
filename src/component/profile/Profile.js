@@ -2,10 +2,9 @@ import * as React from "react";
 import {withRouter} from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
-import loginBackground from '../../assets/login_back.jpg';
-import backgroundPaper from '../../assets/sidebarBackground.jpeg';
 import ProfileDetails from "./ProfileDetails";
 import ProfileGeneral from "./ProfileGeneral";
+import {StudentDetails} from "./StudentDetails";
 
 class Profile extends React.Component {
 
@@ -29,26 +28,6 @@ class Profile extends React.Component {
         });
     };
 
-    mainStyle = {
-        display: "flex",
-        backgroundImage: `url(${loginBackground})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        height: "100vh",
-        marginLeft: "27vh",
-        width: "calc(100% - 27vh)"
-    };
-
-    paperStyle = {
-        marginLeft: "5vh",
-        marginTop: "5vh",
-        backgroundImage: `url(${backgroundPaper})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover"
-    };
-
     avatarStyle = {
         margin: "10px",
         width: "15vh",
@@ -58,13 +37,16 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <Grid container direction="column" justify="flex-start" alignItems="flex-start" style={this.mainStyle}>
-                <Grid item container direction="row">
-                    <ProfileGeneral user={this.props.data.user} paperStyle={this.paperStyle}
-                                    avatarStyle={this.avatarStyle}/>
-                </Grid>
-                <Grid item container direction="row">
-                    <ProfileDetails paperStyle={this.paperStyle} user={this.props.data.user}/>
+            <Grid container direction="column" justify="flex-start" alignItems="flex-start"
+                  style={this.props.mainStyle}>
+                <Grid item>
+                    <Grid item container direction="row">
+                        <ProfileGeneral user={this.props.data.user} avatarStyle={this.avatarStyle}/>
+                    </Grid>
+                    <Grid item container direction="row">
+                        <ProfileDetails user={this.props.data.user}/>
+                        <StudentDetails student={this.props.data.student}/>
+                    </Grid>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
