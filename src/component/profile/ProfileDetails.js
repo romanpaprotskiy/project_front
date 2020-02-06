@@ -25,7 +25,7 @@ export class ProfileDetails extends React.Component {
     render() {
         return (
             <Paper elevation={5} style={this.paperStyle}>
-                <Grid container direction="row" xs style={{margin: "2vh"}}>
+                <Grid container direction="row" style={{margin: "2vh"}}>
                     <List>
                         <ListItem>
                             <ListItemAvatar>

@@ -43,7 +43,7 @@ export class ProfileGeneral extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid item style={{margin: "2vh"}}>
-                        <Fab color="gray" aria-label="edit">
+                        <Fab aria-label="edit">
                             <EditIcon/>
                         </Fab>
                     </Grid>

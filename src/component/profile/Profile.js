@@ -5,6 +5,7 @@ import Alert from "../snackbar/Alert";
 import ProfileDetails from "./ProfileDetails";
 import ProfileGeneral from "./ProfileGeneral";
 import {StudentDetails} from "./StudentDetails";
+import {ProfileScheduler} from "./ProfileScheduler";
 
 class Profile extends React.Component {
 
@@ -28,6 +29,12 @@ class Profile extends React.Component {
         });
     };
 
+    componentDidMount() {
+        const height = document.getElementById("left").clientHeight;
+        console.log(height);
+        this.setState({height})
+    }
+
     avatarStyle = {
         margin: "10px",
         width: "15vh",
@@ -37,9 +44,9 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <Grid container direction="column" justify="flex-start" alignItems="flex-start"
+            <Grid container direction="row" justify="flex-start" alignItems="flex-start"
                   style={this.props.mainStyle}>
-                <Grid item>
+                <Grid item id="left">
                     <Grid item container direction="row">
                         <ProfileGeneral user={this.props.data.user} avatarStyle={this.avatarStyle}/>
                     </Grid>
@@ -47,6 +54,9 @@ class Profile extends React.Component {
                         <ProfileDetails user={this.props.data.user}/>
                         <StudentDetails student={this.props.data.student}/>
                     </Grid>
+                </Grid>
+                <Grid item xs={6}>
+                    <ProfileScheduler height={this.state.height}/>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
