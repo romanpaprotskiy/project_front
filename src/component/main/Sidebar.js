@@ -23,6 +23,9 @@ export class Sidebar extends React.Component {
         const provider = ServiceProvider.provider();
         this.securityService = provider.getService(provider.service.SECURITY_SERVICE);
         console.log(Urls.ROOT_URL);
+        this.state = {
+            selectedItem: 1
+        };
     }
 
     avatarStyle = {
@@ -60,7 +63,8 @@ export class Sidebar extends React.Component {
                         <Divider/>
                         <List>
                             {this.securityService.currentUserTabs().map((item) => (
-                                <ListItem button key={item.name}>
+                                <ListItem button key={item.name}
+                                          onClick={() => {this.props.history.push(item.redirectUri)}}>
                                     <ListItemIcon><img src={item.icon} alt="Not found"/></ListItemIcon>
                                     <ListItemText primary={item.name}/>
                                 </ListItem>

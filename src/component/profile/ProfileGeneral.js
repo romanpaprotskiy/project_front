@@ -7,8 +7,14 @@ import MailIcon from "@material-ui/icons/Mail";
 import Fab from "@material-ui/core/Fab";
 import EditIcon from "@material-ui/icons/Edit";
 import backgroundPaper from "../../assets/sidebarBackground.jpeg";
+import EditDialog from "./EditDialog";
 
 export class ProfileGeneral extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {openEdit: false};
+    }
 
     paperStyle = {
         marginLeft: "5vh",
@@ -43,9 +49,10 @@ export class ProfileGeneral extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid item style={{margin: "2vh"}}>
-                        <Fab aria-label="edit">
+                        <Fab aria-label="edit" onClick={() => this.setState({openEdit: true})}>
                             <EditIcon/>
                         </Fab>
+                        <EditDialog open={this.state.openEdit}/>
                     </Grid>
                 </Grid>
             </Paper>

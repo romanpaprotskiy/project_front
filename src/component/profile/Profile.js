@@ -6,6 +6,7 @@ import ProfileDetails from "./ProfileDetails";
 import ProfileGeneral from "./ProfileGeneral";
 import {StudentDetails} from "./StudentDetails";
 import {ProfileScheduler} from "./ProfileScheduler";
+import SubjectsList from "./SubjectsList";
 
 class Profile extends React.Component {
 
@@ -31,8 +32,7 @@ class Profile extends React.Component {
 
     componentDidMount() {
         const height = document.getElementById("left").clientHeight;
-        console.log(height);
-        this.setState({height})
+        this.setState({height});
     }
 
     avatarStyle = {
@@ -53,6 +53,9 @@ class Profile extends React.Component {
                     <Grid item container direction="row">
                         <ProfileDetails user={this.props.data.user}/>
                         <StudentDetails student={this.props.data.student}/>
+                    </Grid>
+                    <Grid item>
+                        <SubjectsList subjects={this.props.data.subjects}/>
                     </Grid>
                 </Grid>
                 <Grid item xs={6}>
