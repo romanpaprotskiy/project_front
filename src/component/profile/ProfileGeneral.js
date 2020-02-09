@@ -26,6 +26,14 @@ export class ProfileGeneral extends React.Component {
         backgroundSize: "cover"
     };
 
+    openEditDialog = () => {
+        this.setState({openEdit: true});
+    };
+
+    handleCloseEditDialog = () => {
+        this.setState({openEdit: false});
+    };
+
     render() {
         return (
             <Paper elevation={5} style={this.paperStyle}>
@@ -49,10 +57,12 @@ export class ProfileGeneral extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid item style={{margin: "2vh"}}>
-                        <Fab aria-label="edit" onClick={() => this.setState({openEdit: true})}>
+                        <Fab aria-label="edit" onClick={this.openEditDialog}>
                             <EditIcon/>
                         </Fab>
-                        <EditDialog open={this.state.openEdit}/>
+                        <EditDialog open={this.state.openEdit}
+                                    handleClose={this.handleCloseEditDialog}
+                                    user={this.props.user}/>
                     </Grid>
                 </Grid>
             </Paper>
