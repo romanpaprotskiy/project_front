@@ -5,9 +5,10 @@ import Button from "@material-ui/core/Button";
 import PersonIcon from '@material-ui/icons/Person';
 import Grid from "@material-ui/core/Grid";
 import {MuiPickersUtilsProvider, KeyboardDatePicker} from "@material-ui/pickers";
-import moment from '@date-io/moment';
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
+import {ServiceProvider} from "../service/ServiceProvider";
+import Errors from "../error/Errors";
 
 export class EditDialog extends React.Component {
 
@@ -20,8 +21,23 @@ export class EditDialog extends React.Component {
             phone: props.user.phone,
             skype: props.user.skypeId
         };
-
+        const provider = ServiceProvider.provider();
+        this.profileService = provider.getService(provider.service.PROFILE_SERVICE);
+        console.log(this.state.birthDate);
     }
+
+    update = (data) => {
+        this.props.update(data);
+    };
+
+    handleSave = () => {
+        let response = this.profileService.editCurrentUserProfile(this.state.birthDate.toISOString(),
+            this.state.phone, this.state.skype)
+            .then(response => response.data)
+            .catch(reason => this.props.alert(Errors.getErrorMessage(reason)));
+        this.props.handleClose();
+        if (response) this.update(response);
+    };
 
     formControlStyle = {
         width: "100%",
@@ -38,35 +54,33 @@ export class EditDialog extends React.Component {
                     </Grid>
                 </DialogTitle>
                 <DialogContent>
-                    <MuiPickersUtilsProvider utils={moment}>
-                        <Grid container direction="column" alignItems="flex-start" justify="center">
-                            <KeyboardDatePicker disableFuture
-                                        openTo="year"
-                                        format="DD/MM/YYYY"
-                                        label="Date of birth"
-                                        views={["year", "month", "date"]}
-                                        value={this.state.birthDate}
-                                        onChange={(e) => this.setState({birthDate: e})}
-                                        style={this.formControlStyle}/>
-                            <FormControl style={this.formControlStyle}>
-                                <Input
-                                    value={this.state.phone}
-                                    onChange={(e) =>
-                                        this.setState({phone: e.target.value})}
-                                />
-                            </FormControl>
-                            <FormControl style={this.formControlStyle}>
-                                <Input
-                                    value={this.state.skype}
-                                    onChange={(e) =>
-                                        this.setState({skype: e.target.value})}
-                                />
-                            </FormControl>
-                        </Grid>
-                    </MuiPickersUtilsProvider>
+                    <Grid container direction="column" alignItems="flex-start" justify="center">
+                        <KeyboardDatePicker disableFuture
+                                            openTo="year"
+                                            format="DD/MM/YYYY"
+                                            label="Date of birth"
+                                            views={["year", "month", "date"]}
+                                            value={this.state.birthDate}
+                                            onChange={(e) => this.setState({birthDate: e})}
+                                            style={this.formControlStyle}/>
+                        <FormControl style={this.formControlStyle}>
+                            <Input
+                                value={this.state.phone}
+                                onChange={(e) =>
+                                    this.setState({phone: e.target.value})}
+                            />
+                        </FormControl>
+                        <FormControl style={this.formControlStyle}>
+                            <Input
+                                value={this.state.skype}
+                                onChange={(e) =>
+                                    this.setState({skype: e.target.value})}
+                            />
+                        </FormControl>
+                    </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.props.handleClose} color="primary" variant="contained">
+                    <Button onClick={this.handleSave} color="primary" variant="contained">
                         Save
                     </Button>
                     <Button onClick={this.props.handleClose} color="secondary" variant="contained">

@@ -13,7 +13,8 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            alertOpen: false
+            alertOpen: false,
+            user: this.props.data.user
         };
     }
 
@@ -35,6 +36,10 @@ class Profile extends React.Component {
         this.setState({height});
     }
 
+    updateProfileDetails = (data) => {
+        this.setState({user: data});
+    };
+
     avatarStyle = {
         margin: "10px",
         width: "15vh",
@@ -48,10 +53,12 @@ class Profile extends React.Component {
                   style={this.props.mainStyle}>
                 <Grid item id="left">
                     <Grid item container direction="row">
-                        <ProfileGeneral user={this.props.data.user} avatarStyle={this.avatarStyle}/>
+                        <ProfileGeneral user={this.state.user} avatarStyle={this.avatarStyle}
+                                        updateProfileDetails={this.updateProfileDetails}
+                                        alert={this.showAlert}/>
                     </Grid>
                     <Grid item container direction="row">
-                        <ProfileDetails user={this.props.data.user}/>
+                        <ProfileDetails user={this.state.user}/>
                         <StudentDetails student={this.props.data.student}/>
                     </Grid>
                     <Grid item>

@@ -12,9 +12,13 @@ export class ProfileService {
         });
     };
 
-    editCurrentUserProfile = (data) => {
+    editCurrentUserProfile = (birthDate, phone, skypeId) => {
         const accessToken = localStorage.getItem("accessToken");
-        return axios.put(Urls.BASE_V1_URL + '/profile/current', data, {
+        return axios.put(Urls.BASE_V1_URL + '/profile/current', {
+            birthDate: birthDate,
+            phone: phone,
+            skypeId: skypeId
+        }, {
             headers: {
                 Authorization: "Bearer " + accessToken
             }

@@ -2,6 +2,7 @@ import * as React from "react";
 import {Paper} from "@material-ui/core";
 import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 import {Appointments, AppointmentTooltip, Scheduler, WeekView} from "@devexpress/dx-react-scheduler-material-ui";
+import Grid from "@material-ui/core/Grid";
 
 export class ProfileScheduler extends React.Component {
 
@@ -15,21 +16,17 @@ export class ProfileScheduler extends React.Component {
         backgroundSize: "cover"
     };
 
-    data = {
-        startDate: new Date("2020-02-06T11:20:00"),
-        endDate: new Date("2020-02-06T12:40:00"),
-        title:"Test"
-    };
-
     render() {
         return (
-            <Paper style={this.paperStyle}>
-                <Scheduler height={this.props.height} data={[this.data]} firstDayOfWeek={1}>
-                    <WeekView startDayHour={8} endDayHour={22}/>
-                    <Appointments/>
-                    <AppointmentTooltip />
-                </Scheduler>
-            </Paper>
+            <Grid item container>
+                <Paper style={this.paperStyle}>
+                    <Scheduler height={this.props.height} firstDayOfWeek={1}>
+                        <WeekView startDayHour={8} endDayHour={22}/>
+                        <Appointments/>
+                        <AppointmentTooltip/>
+                    </Scheduler>
+                </Paper>
+            </Grid>
         );
     }
 }

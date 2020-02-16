@@ -62,6 +62,8 @@ export class ProfileGeneral extends React.Component {
                         </Fab>
                         <EditDialog open={this.state.openEdit}
                                     handleClose={this.handleCloseEditDialog}
+                                    update={this.props.updateProfileDetails}
+                                    alert={this.props.alert}
                                     user={this.props.user}/>
                     </Grid>
                 </Grid>
