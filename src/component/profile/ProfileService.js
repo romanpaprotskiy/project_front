@@ -11,4 +11,13 @@ export class ProfileService {
             }
         });
     };
+
+    editCurrentUserProfile = (data) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return axios.put(Urls.BASE_V1_URL + '/profile/current', data, {
+            headers: {
+                Authorization: "Bearer " + accessToken
+            }
+        })
+    };
 }
