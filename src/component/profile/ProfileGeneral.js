@@ -13,7 +13,9 @@ export class ProfileGeneral extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {openEdit: false};
+        this.state = {
+            openEdit: false
+        };
     }
 
     paperStyle = {
@@ -63,7 +65,6 @@ export class ProfileGeneral extends React.Component {
                         <EditDialog open={this.state.openEdit}
                                     handleClose={this.handleCloseEditDialog}
                                     update={this.props.updateProfileDetails}
-                                    alert={this.props.alert}
                                     user={this.props.user}/>
                     </Grid>
                 </Grid>
