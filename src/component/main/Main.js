@@ -1,5 +1,5 @@
 import * as React from "react";
-import {withRouter} from "react-router-dom";
+import {Route, withRouter} from "react-router-dom";
 import Profile from "../profile/Profile";
 import Sidebar from "./Sidebar";
 import Errors from "../error/Errors";
@@ -7,6 +7,7 @@ import {ServiceProvider} from "../service/ServiceProvider";
 import Alert from "../snackbar/Alert";
 import {CircularProgress} from "@material-ui/core";
 import loginBackground from "../../assets/login_back.jpg";
+import {Switch} from "react-router";
 
 class Main extends React.Component {
 
@@ -22,7 +23,7 @@ class Main extends React.Component {
     }
 
     redirectToLogin() {
-        setTimeout( () => {
+        setTimeout(() => {
             this.props.history.push("/");
         }, 3000);
     }
@@ -89,7 +90,10 @@ class Main extends React.Component {
             return (
                 <div style={{display: "flex"}}>
                     <Sidebar user={this.state.userData.user}/>
-                    <Profile data={this.state.userData} mainStyle={this.mainStyle}/>
+                    <Switch>
+                        <Route path="/main/profile"
+                               component={() => <Profile data={this.state.userData} mainStyle={this.mainStyle}/>}/>
+                    </Switch>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}
                            handleClose={this.hideAlert}/>

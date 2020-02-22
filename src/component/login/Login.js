@@ -93,7 +93,7 @@ export class Login extends React.Component {
     };
 
     redirectToMain = () => {
-        this.props.history.push("/main");
+        this.props.history.push("/main/profile");
     };
 
     render() {
