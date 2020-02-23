@@ -8,6 +8,7 @@ import Alert from "../snackbar/Alert";
 import {CircularProgress} from "@material-ui/core";
 import loginBackground from "../../assets/login_back.jpg";
 import {Switch} from "react-router";
+import {Students} from "../students/Students";
 
 class Main extends React.Component {
 
@@ -93,6 +94,7 @@ class Main extends React.Component {
                     <Switch>
                         <Route path="/main/profile"
                                component={() => <Profile data={this.state.userData} mainStyle={this.mainStyle}/>}/>
+                        <Route path="/main/students" component={() => <Students mainStyle={this.mainStyle}/>}/>
                     </Switch>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}

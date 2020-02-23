@@ -80,6 +80,14 @@ class Profile extends React.Component {
         marginRight: "auto"
     };
 
+    getSubDetails = () => {
+        if (this.props.data.student)
+            return <StudentDetails student={this.props.data.student}/>;
+        if (this.props.data.teacher)
+            return null;//TODO
+        return null;//TODO empty element
+    };
+
     render() {
         if (this.state.user) {
             return (
@@ -92,7 +100,7 @@ class Profile extends React.Component {
                         </Grid>
                         <Grid item container direction="row">
                             <ProfileDetails user={this.state.user}/>
-                            <StudentDetails student={this.props.data.student}/>
+                            {this.getSubDetails()}
                         </Grid>
                         <Grid item>
                             <SubjectsList subjects={this.props.data.subjects}/>
