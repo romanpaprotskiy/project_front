@@ -9,6 +9,8 @@ import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 import {ServiceProvider} from "../service/ServiceProvider";
 import Avatar from "@material-ui/core/Avatar";
 import Errors from "../error/Errors";
+import EditIcon from '@material-ui/icons/Edit';
+import Button from "@material-ui/core/Button";
 
 export class StudentsTable extends React.Component {
 
@@ -67,7 +69,8 @@ export class StudentsTable extends React.Component {
         {id: 3, label: "Group", format: data => data.group.parent.name},
         {id: 3, label: "Sub Group", format: data => data.group.name},
         {id: 4, label: "Date of starts", format: data => new Date(data.dateOfEnroll).toLocaleDateString()},
-        {id: 5, label: "Email", format: data => data.user.email}];
+        {id: 5, label: "Email", format: data => data.user.email},
+        {id: 6, label: "Actions", format: data => <Button><EditIcon/></Button>}];
 
     rowsPerPageOptions = [10, 20, 30];
 

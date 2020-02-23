@@ -29,8 +29,10 @@ export class Students extends React.Component {
         return (
             <Grid container direction="column" justify="flex-start" alignItems="flex-start"
                   style={this.props.mainStyle}>
-                <Grid item>
-                    <StudentsTable showAlert={this.showAlert}/>
+                <Grid item container direction="row" justify="flex-start" alignItems="flex-start">
+                    <Grid item>
+                        <StudentsTable showAlert={this.showAlert}/>
+                    </Grid>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
