@@ -84,7 +84,7 @@ class Profile extends React.Component {
         if (this.props.data.student)
             return <StudentDetails student={this.props.data.student}/>;
         if (this.props.data.teacher)
-            return null;//TODO
+            return null;//TODO teacher element
         return null;//TODO empty element
     };
 
