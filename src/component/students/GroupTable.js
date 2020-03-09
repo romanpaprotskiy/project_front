@@ -8,7 +8,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import TablePagination from "@material-ui/core/TablePagination";
 import * as React from "react";
-import Collapse from "@material-ui/core/Collapse";
 
 export class GroupTable extends React.Component {
 
@@ -90,11 +89,6 @@ export class GroupTable extends React.Component {
                                         return (
                                             <TableCell key={column.id}>
                                                 {column.format(row)}
-                                                <Collapse
-                                                    in={this.state.collapsedRow}
-                                                    timeout='auto'>
-                                                    Test
-                                                </Collapse>
                                             </TableCell>
                                         );
                                     })}

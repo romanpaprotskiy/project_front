@@ -20,4 +20,22 @@ export class StudentService {
             }
         })
     };
+
+    getRootGroups = () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return axios.get(Urls.BASE_V1_URL + "/groups/root", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+    };
+
+    createGroup = (request) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return axios.post(Urls.BASE_V1_URL + "/groups",request,{
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+    };
 }

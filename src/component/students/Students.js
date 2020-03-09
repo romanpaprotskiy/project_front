@@ -2,6 +2,7 @@ import * as React from "react";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
 import StudentsTable from "./StudentsTable";
+import {NewStudentGroup} from "./NewStudentGroup";
 import GroupTable from "./GroupTable";
 
 export class Students extends React.Component {
@@ -42,6 +43,9 @@ export class Students extends React.Component {
                     <StudentsTable showAlert={this.showAlert}/>
                 </Grid>
                 <Grid item container direction="column" justify="flex-start" alignItems="flex-start" style={this.groupTableStyle}>
+                    <Grid item container direction="row">
+                        <NewStudentGroup showAlert={this.showAlert}/>
+                    </Grid>
                     <Grid item>
                         <GroupTable showAlert={this.showAlert}/>
                     </Grid>
