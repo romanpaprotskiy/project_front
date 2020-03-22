@@ -2,8 +2,13 @@ import * as React from "react";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
 import StudentsTable from "./StudentsTable";
-import {NewStudentGroup} from "./NewStudentGroup";
-import GroupTable from "./GroupTable";
+import {CreateNewItemForm} from "./CreateNewItemForm";
+import Success from "../snackbar/Success";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search';
+import {InputAdornment, TextField} from "@material-ui/core";
+import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 
 export class Students extends React.Component {
 
@@ -11,6 +16,8 @@ export class Students extends React.Component {
         super(props, context);
         this.state = {
             alertOpen: false,
+            successOpen: false,
+            successMessage: ''
         };
     }
 
@@ -19,6 +26,19 @@ export class Students extends React.Component {
             alertOpen: true
         });
         if (message != null) this.setState({alertMessage: message});
+    };
+
+    hideSuccess = () => {
+        this.setState({
+            successOpen: false
+        });
+    };
+
+    showSuccess = (message) => {
+        this.setState({
+            successOpen: true
+        });
+        if (message != null) this.setState({successMessage: message});
     };
 
     hideAlert = () => {
@@ -35,24 +55,54 @@ export class Students extends React.Component {
         width: "35%"
     };
 
+    paperStyle = {
+        marginLeft: "5vh",
+        marginTop: "5vh",
+        backgroundImage: `url(${backgroundPaper})`,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        borderRadius: "5px"
+    };
+
     render() {
         return (
             <Grid container direction="row" style={this.props.mainStyle}>
-                <Grid item container direction="row" justify="flex-start" alignItems="flex-start"
+                <Grid item container direction="column" justify="flex-start" alignItems="flex-start"
                       style={this.studentTableStyle}>
+                    <Grid item container direction="row">
+                        <TextField variant="outlined" style={this.paperStyle}
+                                   InputProps={{
+                                       startAdornment:
+                                           <InputAdornment position="start">
+                                               <SearchIcon/>
+                                           </InputAdornment>
+                                   }}/>
+                        <ButtonGroup color="action" variant="contained"
+                                     style={{marginLeft: "5vh", marginTop: "5vh"}}>
+                            <Button>Students</Button>
+                            <Button>Groups</Button>
+                            <Button>Teachers</Button>
+                        </ButtonGroup>
+                    </Grid>
                     <StudentsTable showAlert={this.showAlert}/>
                 </Grid>
-                <Grid item container direction="column" justify="flex-start" alignItems="flex-start" style={this.groupTableStyle}>
+                <Grid item container direction="column" justify="flex-start" alignItems="flex-start"
+                      style={this.groupTableStyle}>
                     <Grid item container direction="row">
-                        <NewStudentGroup showAlert={this.showAlert}/>
+                        <CreateNewItemForm showAlert={this.showAlert}
+                                           showSuccess={this.showSuccess}/>
                     </Grid>
-                    <Grid item>
-                        <GroupTable showAlert={this.showAlert}/>
-                    </Grid>
+                    {/*<Grid item>*/}
+                    {/*    <GroupTable showAlert={this.showAlert}/>*/}
+                    {/*</Grid>*/}
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
                        handleClose={this.hideAlert}/>
+                <Success isOpen={this.state.successOpen}
+                         successMessage={this.state.successMessage}
+                         handleClose={this.hideSuccess}/>
             </Grid>
         );
     }

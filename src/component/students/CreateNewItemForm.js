@@ -7,13 +7,13 @@ import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import Grid from "@material-ui/core/Grid";
 import {CreateGroupForm} from "./CreateGroupForm";
 
-export class NewStudentGroup extends React.Component {
+export class CreateNewItemForm extends React.Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {
             open: false,
-            checked: false
+            action: ''
         };
     }
 
@@ -23,8 +23,8 @@ export class NewStudentGroup extends React.Component {
     };
 
     actions = [
-        {icon: <PersonAddIcon/>, name: 'Add student'},
-        {icon: <GroupAddIcon/>, name: 'Add group'}
+        {icon: <PersonAddIcon/>, name: 'Add student', handle: el => this.setState({action: el.name})},
+        {icon: <GroupAddIcon/>, name: 'Add group', handle: el => this.setState({action: el.name})}
     ];
 
     handleClose = () => {
@@ -35,8 +35,22 @@ export class NewStudentGroup extends React.Component {
         this.setState({open: true});
     };
 
-    openCreate = () => {
-        this.setState({open: false, checked: !this.state.checked});
+    switchForm = () => {
+        if (this.state.action !== '') {
+            switch (this.state.action) {
+                case 'Add student':
+                    return null;// TODO
+                case 'Add group':
+                    return <CreateGroupForm
+                        showAlert={this.props.showAlert}
+                        showSuccess={this.props.showSuccess}
+                        checked={this.state.action === 'Add group'}
+                        update={() => {
+                            this.setState({open: false, action: ''});
+                        }}/>;
+                default: return undefined;
+            }
+        }
     };
 
     render() {
@@ -55,11 +69,12 @@ export class NewStudentGroup extends React.Component {
                                 key={action.name}
                                 icon={action.icon}
                                 tooltipTitle={action.name}
-                                onClick={this.openCreate}/>
+                                onClick={() => action.handle(action)}
+                                title={action.name}/>
                         ))}
                     </SpeedDial>
                     <Grid item container style={{marginRight: "5vh"}}>
-                        <CreateGroupForm showAlert={this.props.showAlert} checked={this.state.checked}/>
+                        {this.switchForm()}
                     </Grid>
                 </Grid>
             </Grid>

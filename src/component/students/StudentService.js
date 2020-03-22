@@ -3,39 +3,48 @@ import Urls from "../../url";
 
 export class StudentService {
 
-    getStudents = (page, size) => {
+    getStudents = async (page, size) => {
         const accessToken = localStorage.getItem("accessToken");
-        return axios.get(Urls.BASE_V1_URL + "/students?page=" + page + '&size=' + size, {
+        return await axios.get(Urls.BASE_V1_URL + "/students?page=" + page + '&size=' + size, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
         })
     };
 
-    getGroups = (page, size) => {
+    getGroups = async (page, size) => {
         const accessToken = localStorage.getItem("accessToken");
-        return axios.get(Urls.BASE_V1_URL + "/groups?page=" + page + '&size=' + size, {
+        return await axios.get(Urls.BASE_V1_URL + "/groups?page=" + page + '&size=' + size, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
         })
     };
 
-    getRootGroups = () => {
+    getRootGroups = async () => {
         const accessToken = localStorage.getItem("accessToken");
-        return axios.get(Urls.BASE_V1_URL + "/groups/root", {
+        return await axios.get(Urls.BASE_V1_URL + "/groups/root", {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
         })
     };
 
-    createGroup = (request) => {
+    createGroup = async (request) => {
         const accessToken = localStorage.getItem("accessToken");
-        return axios.post(Urls.BASE_V1_URL + "/groups",request,{
+        return await axios.post(Urls.BASE_V1_URL + "/groups",request,{
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
         })
+    };
+
+    getTeachers = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/teacher/all", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
     };
 }
