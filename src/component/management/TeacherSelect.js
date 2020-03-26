@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 
 export class TeacherSelect extends React.Component {
 
-    studentService;
+    managementService;
 
     constructor(props, context) {
         super(props, context);
@@ -15,12 +15,12 @@ export class TeacherSelect extends React.Component {
             options: []
         };
         const provider = ServiceProvider.provider();
-        this.studentService = provider.getService(provider.service.STUDENT_SERVICE);
+        this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
         this.getTeachers();
     }
 
     getTeachers = () => {
-        this.studentService.getTeachers()
+        this.managementService.getTeachers()
             .then(response => response.data)
             .then(data => this.setState({options: data}))
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
@@ -44,7 +44,8 @@ export class TeacherSelect extends React.Component {
                           autoHighlight
                           disabled={this.props.disabled}
                           renderInput={params =>
-                              <TextField style={{width: "100%"}} {...params} label="Tutor" variant="outlined"/>}/>
+                              <TextField required={this.props.required} error={this.props.error}
+                                  style={{width: "100%"}} {...params} label="Tutor" variant="outlined"/>}/>
         );
     }
 }

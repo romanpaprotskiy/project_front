@@ -1,7 +1,7 @@
 import axios from "axios";
 import Urls from "../../url";
 
-export class StudentService {
+export class ManagementService {
 
     getStudents = async (page, size) => {
         const accessToken = localStorage.getItem("accessToken");
@@ -42,6 +42,15 @@ export class StudentService {
     getTeachers = async () => {
         const accessToken = localStorage.getItem("accessToken");
         return await axios.get(Urls.BASE_V1_URL + "/teacher/all", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
+    getTeachersPage = async (page, size) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/teacher?page=" + page + "&size=" + size, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }

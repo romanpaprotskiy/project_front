@@ -16,7 +16,7 @@ import Typography from "@material-ui/core/Typography";
 
 export class CreateGroupForm extends React.Component {
 
-    studentService;
+    managementService;
 
     constructor(props, context) {
         super(props, context);
@@ -28,7 +28,7 @@ export class CreateGroupForm extends React.Component {
             selectedTutorId: ""
         };
         const provider = ServiceProvider.provider();
-        this.studentService = provider.getService(provider.service.STUDENT_SERVICE);
+        this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
         this.getRootGroups();
     }
 
@@ -49,7 +49,7 @@ export class CreateGroupForm extends React.Component {
     };
 
     getRootGroups = () => {
-        this.studentService.getRootGroups()
+        this.managementService.getRootGroups()
             .then(result => result.data)
             .then(data => this.setState({parentGroups: data}))
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
@@ -71,7 +71,7 @@ export class CreateGroupForm extends React.Component {
             parentGroupId: this.state.selectedParentGroupId,
             teacherId: this.state.selectedTutorId
         };
-        this.studentService.createGroup(request);
+        this.managementService.createGroup(request);
         this.setState({submitClicked: false});
         this.props.update();
         this.props.showSuccess("Group created successfully");
@@ -119,6 +119,10 @@ export class CreateGroupForm extends React.Component {
                         <Grid item xs={12}>
                             <TeacherSelect showAlert={this.props.showAlert}
                                            onSelect={this.selectTutor}
+                                           required
+                                           error={this.state.selectedTutorId === "" &&
+                                           this.state.submitClicked &&
+                                           this.state.selectedParentGroupId === ""}
                                            disabled={this.state.selectedParentGroupId !== ""}/>
                         </Grid>
                         <Grid item xs={12}>

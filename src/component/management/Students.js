@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import {InputAdornment, TextField} from "@material-ui/core";
 import backgroundPaper from "../../assets/sidebarBackground.jpeg";
+import GroupTable from "./GroupTable";
+import TeachersTable from "./TeachersTable";
 
 export class Students extends React.Component {
 
@@ -17,7 +19,8 @@ export class Students extends React.Component {
         this.state = {
             alertOpen: false,
             successOpen: false,
-            successMessage: ''
+            successMessage: '',
+            table: "students"
         };
     }
 
@@ -48,7 +51,7 @@ export class Students extends React.Component {
     };
 
     studentTableStyle = {
-        width: "50%"
+        width: "60%"
     };
 
     groupTableStyle = {
@@ -63,6 +66,19 @@ export class Students extends React.Component {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         borderRadius: "5px"
+    };
+
+    switchTable = () => {
+        switch (this.state.table) {
+            case "students":
+                return <StudentsTable checked={this.state.table === "students"} showAlert={this.showAlert}/>;
+            case "groups":
+                return <GroupTable checked={this.state.table === "groups"} showAlert={this.showAlert}/>;
+            case "teachers":
+                return <TeachersTable checked={this.state.table === "teachers"} showAlert={this.showAlert}/>;
+            default:
+                return undefined;
+        }
     };
 
     render() {
@@ -80,12 +96,12 @@ export class Students extends React.Component {
                                    }}/>
                         <ButtonGroup color="action" variant="contained"
                                      style={{marginLeft: "5vh", marginTop: "5vh"}}>
-                            <Button>Students</Button>
-                            <Button>Groups</Button>
-                            <Button>Teachers</Button>
+                            <Button onClick={() => this.setState({table: "students"})}>Students</Button>
+                            <Button onClick={() => this.setState({table: "groups"})}>Groups</Button>
+                            <Button onClick={() => this.setState({table: "teachers"})}>Teachers</Button>
                         </ButtonGroup>
+                        {this.switchTable()}
                     </Grid>
-                    <StudentsTable showAlert={this.showAlert}/>
                 </Grid>
                 <Grid item container direction="column" justify="flex-start" alignItems="flex-start"
                       style={this.groupTableStyle}>
@@ -93,9 +109,6 @@ export class Students extends React.Component {
                         <CreateNewItemForm showAlert={this.showAlert}
                                            showSuccess={this.showSuccess}/>
                     </Grid>
-                    {/*<Grid item>*/}
-                    {/*    <GroupTable showAlert={this.showAlert}/>*/}
-                    {/*</Grid>*/}
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}

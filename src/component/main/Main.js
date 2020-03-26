@@ -8,7 +8,7 @@ import Alert from "../snackbar/Alert";
 import {CircularProgress} from "@material-ui/core";
 import loginBackground from "../../assets/login_back.jpg";
 import {Switch} from "react-router";
-import {Students} from "../students/Students";
+import {Students} from "../management/Students";
 
 class Main extends React.Component {
 
