@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Fade, Paper, Table, TableContainer} from "@material-ui/core";
+import {Fade, Paper, Table, TableContainer, TableFooter} from "@material-ui/core";
 import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -8,12 +8,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
-import TablePaginationActions from "@material-ui/core/TablePagination/TablePaginationActions";
 import TablePagination from "@material-ui/core/TablePagination";
 import {ServiceProvider} from "../service/ServiceProvider";
 import Errors from "../error/Errors";
 
-export class TeachersTable extends React.Component{
+export class TeachersTable extends React.Component {
 
     managementService;
 
@@ -27,6 +26,7 @@ export class TeachersTable extends React.Component{
             total: 0,
             teachers: []
         };
+        this.getTeachers();
     }
 
     paperStyle = {
@@ -64,13 +64,13 @@ export class TeachersTable extends React.Component{
         this.getTeachers();
     };
 
-    columns = [{id: 1, label: "Photo", format: data => <Avatar alt="Not found" src={data.pictureUrl}/>},
-        {id: 2, label: "Full name", format: data => data.firstName + " " + data.lastName},
-        {id: 3, label: "Employed from", format: data => data.employedFrom},
-        {id: 4, label: "Science title", format: data => data.scienceTitleName},
-        {id: 5, label: "Email", format: data => data.email},
-        {id: 6, label: "Phone", format: data => data.phone},
-        {id: 7, label: "Actions", format: data => <Button><EditIcon/></Button>}];
+    columns = [{label: "Photo", format: data => <Avatar alt="Not found" src={data.pictureUrl}/>},
+        {label: "Full name", format: data => data.firstName + " " + data.lastName},
+        {label: "Employed from", format: data => new Date(data.employedFrom).toLocaleDateString()},
+        {label: "Science title", format: data => data.scienceTitleName},
+        {label: "Email", format: data => data.email},
+        {label: "Phone", format: data => data.phone},
+        {label: "Actions", format: data => <Button><EditIcon/></Button>}];
 
     rowsPerPageOptions = [5, 10, 15];
 
@@ -82,8 +82,8 @@ export class TeachersTable extends React.Component{
                         <Table style={{maxHeight: "100vh"}}>
                             <TableHead>
                                 <TableRow>
-                                    {this.columns.map(column => (
-                                        <TableCell key={column.id}>
+                                    {this.columns.map((column, index) => (
+                                        <TableCell key={index}>
                                             {column.label}
                                         </TableCell>
                                     ))}
@@ -92,10 +92,10 @@ export class TeachersTable extends React.Component{
                             <TableBody>
                                 {this.state.teachers.map(row => {
                                     return (
-                                        <TableRow hover tabIndex={-1} key={row.id}>
+                                        <TableRow hover key={row.id}>
                                             {this.columns.map(column => {
                                                 return (
-                                                    <TableCell key={column.id}>
+                                                    <TableCell key={column.label}>
                                                         {column.format(row)}
                                                     </TableCell>
                                                 );
@@ -103,16 +103,20 @@ export class TeachersTable extends React.Component{
                                         </TableRow>
                                     );
                                 })}
+
                             </TableBody>
-                            <TablePagination
-                                rowsPerPageOptions={this.rowsPerPageOptions}
-                                count={this.state.total}
-                                rowsPerPage={this.state.size}
-                                page={this.state.page}
-                                ActionsComponent={TablePaginationActions}
-                                onChangePage={this.handleChangePage}
-                                onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                            />
+                            <TableFooter>
+                                <TableRow>
+                                    <TablePagination
+                                        rowsPerPageOptions={this.rowsPerPageOptions}
+                                        count={this.state.total}
+                                        rowsPerPage={this.state.size}
+                                        page={this.state.page}
+                                        onChangePage={this.handleChangePage}
+                                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                                    />
+                                </TableRow>
+                            </TableFooter>
                         </Table>
                     </TableContainer>
                 </Paper>

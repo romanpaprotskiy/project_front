@@ -81,6 +81,7 @@ class Main extends React.Component {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        backgroundAttachment: "fixed",
         height: "100vh",
         marginLeft: "27vh",
         width: "calc(100% - 27vh)"

@@ -73,9 +73,9 @@ export class CreateNewItemForm extends React.Component {
                                 title={action.name}/>
                         ))}
                     </SpeedDial>
-                    <Grid item container style={{marginRight: "5vh"}}>
-                        {this.switchForm()}
-                    </Grid>
+                    {/*<Grid item container style={{marginRight: "5vh"}}>*/}
+                    {/*    {this.switchForm()}*/}
+                    {/*</Grid>*/}
                 </Grid>
             </Grid>
         );

@@ -1,14 +1,12 @@
 import React from "react";
-import GoogleLogin from 'react-google-login';
 import Urls from "../../url";
 import Alert from "../snackbar/Alert";
-import loginBackground from '../../assets/login_back.jpg';
-import loginIcon from '../../assets/login.svg';
-import Container from "@material-ui/core/Container";
 import Success from "../snackbar/Success";
 import {withRouter} from "react-router-dom";
 import Errors from "../error/Errors";
 import {ServiceProvider} from "../service/ServiceProvider";
+import Grid from "@material-ui/core/Grid";
+import {LoginForm} from "./LoginForm";
 
 export class Login extends React.Component {
 
@@ -27,50 +25,11 @@ export class Login extends React.Component {
         this.loginService = provider.getService(provider.service.LOGIN_SERVICE);
     }
 
-    mainStyle = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundImage: `url(${loginBackground})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        height: "100vh"
-    };
-
-    loginBlockStyle = {
-        height: "35%",
-        padding: "5%",
-        backgroundColor: 'rgba(214, 214, 214, 0.9)',
-        borderRadius: "5%",
-        boxShadow: "0 0 10px rgba(0,0,0,0.5)"
-    };
-
-    loginIconStyle = {
-        height: "15%",
-        margin: "10%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    };
-
-    loginTextStyle = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    };
-
-    googleLoginStyle = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    };
-
     showAlert = (message) => {
         this.setState({
             alertOpen: true
         });
-        if (message != null) this.setState({alertMessage: message});
+        if (message != null) this.setState({alertMessage: Errors.getErrorMessage(message)});
     };
 
     hideAlert = () => {
@@ -98,29 +57,18 @@ export class Login extends React.Component {
 
     render() {
         return (
-            <div style={this.mainStyle}>
-                <Container maxWidth="xs">
-                    <div style={this.loginBlockStyle}>
-                        <img src={loginIcon} alt="Not found" style={this.loginIconStyle}/>
-                        <h1 style={this.loginTextStyle}>SignIn</h1>
-                        <div style={this.googleLoginStyle}>
-                            <GoogleLogin
-                                clientId="217658242103-pv74qrnmoku2aqhtgre77kutpfuk1sqe.apps.googleusercontent.com"
-                                responseType="code" scope="https://www.googleapis.com/auth/calendar"
-                                onSuccess={r => {
-                                    this.authorize(r.code, Urls.ROOT_URL)
-                                }}
-                                onFailure={reason => this.showAlert(Errors.getErrorMessage(reason))}/>
-                        </div>
-                    </div>
-                </Container>
+            <Grid container direction="row" alignItems="center" justify="center" style={{height: "100%", width: "100%"}}>
+                <Grid item>
+                    <LoginForm authorize={r => this.authorize(r.code, Urls.ROOT_URL)}
+                               showAlert={this.showAlert}/>
+                </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
                        handleClose={this.hideAlert}/>
                 <Success isOpen={this.state.successOpen}
                          successMessage={this.state.successMessage}
                          handleClose={this.hideSuccess}/>
-            </div>
+            </Grid>
         );
     }
 

@@ -32,7 +32,7 @@ export class EditDialog extends React.Component {
     };
 
     setBirthDate = (date) => {
-        let changedDate = moment.utc(date, 'Europe/Kiev');
+        let changedDate = moment.utc(date);
         this.setState({birthDate: changedDate});
     };
 

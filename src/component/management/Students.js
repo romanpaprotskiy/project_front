@@ -2,7 +2,6 @@ import * as React from "react";
 import Grid from "@material-ui/core/Grid";
 import Alert from "../snackbar/Alert";
 import StudentsTable from "./StudentsTable";
-import {CreateNewItemForm} from "./CreateNewItemForm";
 import Success from "../snackbar/Success";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from '@material-ui/core/Button';
@@ -11,6 +10,8 @@ import {InputAdornment, TextField} from "@material-ui/core";
 import backgroundPaper from "../../assets/sidebarBackground.jpeg";
 import GroupTable from "./GroupTable";
 import TeachersTable from "./TeachersTable";
+import {CreateNewItemDial} from "./CreateNewItemDial";
+import {CreateGroupDialog} from "./dialog/CreateGroupDialog";
 
 export class Students extends React.Component {
 
@@ -20,7 +21,9 @@ export class Students extends React.Component {
             alertOpen: false,
             successOpen: false,
             successMessage: '',
-            table: "students"
+            table: "students",
+            dialogOpen: false,
+            dialogType: ""
         };
     }
 
@@ -54,10 +57,6 @@ export class Students extends React.Component {
         width: "60%"
     };
 
-    groupTableStyle = {
-        width: "35%"
-    };
-
     paperStyle = {
         marginLeft: "5vh",
         marginTop: "5vh",
@@ -81,33 +80,32 @@ export class Students extends React.Component {
         }
     };
 
+    handleChangeDial = (type) => {
+        this.setState({dialogType: type, dialogOpen: true});
+    };
+
     render() {
         return (
             <Grid container direction="row" style={this.props.mainStyle}>
                 <Grid item container direction="column" justify="flex-start" alignItems="flex-start"
                       style={this.studentTableStyle}>
                     <Grid item container direction="row">
-                        <TextField variant="outlined" style={this.paperStyle}
-                                   InputProps={{
-                                       startAdornment:
-                                           <InputAdornment position="start">
-                                               <SearchIcon/>
-                                           </InputAdornment>
-                                   }}/>
-                        <ButtonGroup color="action" variant="contained"
-                                     style={{marginLeft: "5vh", marginTop: "5vh"}}>
-                            <Button onClick={() => this.setState({table: "students"})}>Students</Button>
-                            <Button onClick={() => this.setState({table: "groups"})}>Groups</Button>
-                            <Button onClick={() => this.setState({table: "teachers"})}>Teachers</Button>
-                        </ButtonGroup>
+                        <Grid item container direction="row">
+                            <TextField variant="outlined" style={this.paperStyle}
+                                       InputProps={{
+                                           startAdornment:
+                                               <InputAdornment position="start">
+                                                   <SearchIcon/>
+                                               </InputAdornment>
+                                       }}/>
+                            <ButtonGroup variant="contained" style={{marginLeft: "5vh", marginTop: "5vh"}}>
+                                <Button onClick={() => this.setState({table: "students"})}>Students</Button>
+                                <Button onClick={() => this.setState({table: "groups"})}>Groups</Button>
+                                <Button onClick={() => this.setState({table: "teachers"})}>Teachers</Button>
+                            </ButtonGroup>
+                            <CreateNewItemDial handleChange={this.handleChangeDial}/>
+                        </Grid>
                         {this.switchTable()}
-                    </Grid>
-                </Grid>
-                <Grid item container direction="column" justify="flex-start" alignItems="flex-start"
-                      style={this.groupTableStyle}>
-                    <Grid item container direction="row">
-                        <CreateNewItemForm showAlert={this.showAlert}
-                                           showSuccess={this.showSuccess}/>
                     </Grid>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
@@ -116,6 +114,9 @@ export class Students extends React.Component {
                 <Success isOpen={this.state.successOpen}
                          successMessage={this.state.successMessage}
                          handleClose={this.hideSuccess}/>
+                <CreateGroupDialog open={this.state.dialogOpen && this.state.dialogType === "groupDialog"}
+                                   onClose={() => this.setState({dialogOpen: false})}
+                                   showSuccess={this.showSuccess}/>
             </Grid>
         );
     }
