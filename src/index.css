@@ -8,7 +8,6 @@ body {
 }
 
 html {
-    display: flex;
     background-image: url("assets/login_back.jpg");
     background-position: center;
     background-repeat: no-repeat;

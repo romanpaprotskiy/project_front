@@ -1,7 +1,7 @@
 import * as React from "react";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {ServiceProvider} from "../service/ServiceProvider";
-import Errors from "../error/Errors";
+import {ServiceProvider} from "../../service/ServiceProvider";
+import Errors from "../../error/Errors";
 import TextField from "@material-ui/core/TextField";
 
 export class TeacherSelect extends React.Component {

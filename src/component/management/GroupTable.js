@@ -30,8 +30,12 @@ export class GroupTable extends React.Component {
         this.getGroups(0, 5);
     }
 
+    update = () => {
+        this.getGroups(0, 5);
+        this.setState({page: 0, size: this.state.size});
+    };
+
     getGroups = (page, size) => {
-        console.log(this.state);
         this.managementService.getGroups(page, size)
             .then(response => response.data)
             .then(data => this.setData(data))

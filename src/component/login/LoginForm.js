@@ -7,15 +7,14 @@ import {Paper} from "@material-ui/core";
 export class LoginForm extends React.Component {
 
     loginBlockStyle = {
-        height: "35%",
-        padding: "5%",
         backgroundColor: 'rgba(214, 214, 214, 0.9)',
         borderRadius: "5%",
-        boxShadow: "0 0 10px rgba(0,0,0,0.5)"
+        boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+        margin: "auto"
     };
 
     loginIconStyle = {
-        height: "15%",
+        height: "50%",
         margin: "10%",
         display: "flex",
         justifyContent: "center",

@@ -10,7 +10,7 @@ import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import {ServiceProvider} from "../service/ServiceProvider";
 import Errors from "../error/Errors";
-import TeacherSelect from "./TeacherSelect";
+import TeacherSelect from "./select/TeacherSelect";
 import GroupIcon from '@material-ui/icons/Group';
 import Typography from "@material-ui/core/Typography";
 

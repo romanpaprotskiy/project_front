@@ -57,7 +57,7 @@ export class Login extends React.Component {
 
     render() {
         return (
-            <Grid container direction="row" alignItems="center" justify="center" style={{height: "100%", width: "100%"}}>
+            <Grid container direction="column" alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
                 <Grid item>
                     <LoginForm authorize={r => this.authorize(r.code, Urls.ROOT_URL)}
                                showAlert={this.showAlert}/>

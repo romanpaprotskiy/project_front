@@ -22,11 +22,12 @@ export class TeachersTable extends React.Component {
         this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
         this.state = {
             page: 0,
-            size: 10,
+            size: 5,
             total: 0,
-            teachers: []
+            teachers: [],
+            rowsPerPage: 0
         };
-        this.getTeachers();
+        this.getTeachers(0, 5);
     }
 
     paperStyle = {
@@ -39,8 +40,8 @@ export class TeachersTable extends React.Component {
         backgroundSize: "cover"
     };
 
-    getTeachers = () => {
-        this.managementService.getTeachersPage(this.state.page, this.state.size)
+    getTeachers = (page, size) => {
+        this.managementService.getTeachersPage(page, size)
             .then(response => response.data)
             .then(data => this.setData(data))
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
@@ -49,19 +50,19 @@ export class TeachersTable extends React.Component {
     setData = (data) => {
         this.setState({
             teachers: data.content,
-            page: data.number,
-            total: data.totalElements
+            total: data.metadata.totalElements,
+            rowsPerPage: data.metadata.size
         });
     };
 
     handleChangePage = (event, page) => {
         this.setState({page: page});
-        this.getTeachers();
+        this.getTeachers(page, this.state.size);
     };
 
     handleChangeRowsPerPage = (event) => {
         this.setState({size: event.target.value});
-        this.getTeachers();
+        this.getTeachers(0, event.target.value);
     };
 
     columns = [{label: "Photo", format: data => <Avatar alt="Not found" src={data.pictureUrl}/>},
@@ -72,7 +73,7 @@ export class TeachersTable extends React.Component {
         {label: "Phone", format: data => data.phone},
         {label: "Actions", format: data => <Button><EditIcon/></Button>}];
 
-    rowsPerPageOptions = [5, 10, 15];
+    rowsPerPageOptions = [5, 10];
 
     render() {
         return (
@@ -110,7 +111,7 @@ export class TeachersTable extends React.Component {
                                     <TablePagination
                                         rowsPerPageOptions={this.rowsPerPageOptions}
                                         count={this.state.total}
-                                        rowsPerPage={this.state.size}
+                                        rowsPerPage={this.state.rowsPerPage}
                                         page={this.state.page}
                                         onChangePage={this.handleChangePage}
                                         onChangeRowsPerPage={this.handleChangeRowsPerPage}

@@ -15,6 +15,8 @@ import {CreateGroupDialog} from "./dialog/CreateGroupDialog";
 
 export class Students extends React.Component {
 
+    groupTableRef;
+
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -72,7 +74,8 @@ export class Students extends React.Component {
             case "students":
                 return <StudentsTable checked={this.state.table === "students"} showAlert={this.showAlert}/>;
             case "groups":
-                return <GroupTable checked={this.state.table === "groups"} showAlert={this.showAlert}/>;
+                return <GroupTable checked={this.state.table === "groups"} showAlert={this.showAlert}
+                                   ref={el => this.groupTableRef = el}/>;
             case "teachers":
                 return <TeachersTable checked={this.state.table === "teachers"} showAlert={this.showAlert}/>;
             default:
@@ -82,6 +85,12 @@ export class Students extends React.Component {
 
     handleChangeDial = (type) => {
         this.setState({dialogType: type, dialogOpen: true});
+    };
+
+    onSuccessCreateGroup = (message) => {
+        this.showSuccess(message);
+        this.setState({dialogOpen: false});
+        this.groupTableRef.update();
     };
 
     render() {
@@ -116,7 +125,7 @@ export class Students extends React.Component {
                          handleClose={this.hideSuccess}/>
                 <CreateGroupDialog open={this.state.dialogOpen && this.state.dialogType === "groupDialog"}
                                    onClose={() => this.setState({dialogOpen: false})}
-                                   showSuccess={this.showSuccess}/>
+                                   onSuccess={this.onSuccessCreateGroup}/>
             </Grid>
         );
     }
