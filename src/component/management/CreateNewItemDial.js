@@ -30,10 +30,10 @@ export class CreateNewItemDial extends React.Component {
             handle: el => this.props.handleChange(el.type)
         },
         {
-            type: "groupDialog", icon: <GroupAddIcon/>, name: 'Add group', handle: el => {
-                this.props.handleChange(el.type);
-                console.log(el);
-            }
+            type: "groupDialog",
+            icon: <GroupAddIcon/>,
+            name: 'Add group',
+            handle: el => this.props.handleChange(el.type)
         },
         {
             type: "teacherDialog",

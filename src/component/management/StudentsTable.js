@@ -31,6 +31,11 @@ export class StudentsTable extends React.Component {
         this.getStudents(0, 5);
     }
 
+    update = () => {
+        this.getStudents(0, 5);
+        this.setState({page: 0, size: this.state.size});
+    };
+
     getStudents = (page, size) => {
         this.managementService.getStudents(page, size)
             .then(response => response.data)
@@ -68,12 +73,13 @@ export class StudentsTable extends React.Component {
 
     columns = [{label: "Photo", format: data => <Avatar alt="Not found" src={data.user.pictureUrl}/>},
         {label: "Full name", format: data => data.user.firstName + " " + data.user.lastName},
-        {label: "Group", format: data => data.group.parent.name},
-        {label: "Sub Group", format: data => data.group.name},
+        {label: "Group", format: data => data.group.parent !== null ? data.group.parent.name : data.group.name},
+        {label: "Sub Group", format: data => data.group.parent !== null ? data.group.name : "-"},
         {label: "Date of starts", format: data => new Date(data.dateOfEnroll).toLocaleDateString()},
         {label: "Email", format: data => data.user.email},
         {label: "Phone", format: data => data.user.phone},
-        {label: "Actions", format: data => <Button><EditIcon/></Button>}];
+        {label: "Actions", format: data => <Button><EditIcon/></Button>}
+        ];
 
     rowsPerPageOptions = [5, 10, 15];
 

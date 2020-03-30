@@ -12,10 +12,12 @@ import GroupTable from "./GroupTable";
 import TeachersTable from "./TeachersTable";
 import {CreateNewItemDial} from "./CreateNewItemDial";
 import {CreateGroupDialog} from "./dialog/CreateGroupDialog";
+import {CreateStudentDialog} from "./dialog/CreateStudentDialog";
 
 export class Students extends React.Component {
 
     groupTableRef;
+    studentTableRef;
 
     constructor(props, context) {
         super(props, context);
@@ -72,7 +74,8 @@ export class Students extends React.Component {
     switchTable = () => {
         switch (this.state.table) {
             case "students":
-                return <StudentsTable checked={this.state.table === "students"} showAlert={this.showAlert}/>;
+                return <StudentsTable checked={this.state.table === "students"} showAlert={this.showAlert}
+                                      ref={el => this.studentTableRef = el}/>;
             case "groups":
                 return <GroupTable checked={this.state.table === "groups"} showAlert={this.showAlert}
                                    ref={el => this.groupTableRef = el}/>;
@@ -90,7 +93,13 @@ export class Students extends React.Component {
     onSuccessCreateGroup = (message) => {
         this.showSuccess(message);
         this.setState({dialogOpen: false});
-        this.groupTableRef.update();
+        if (this.groupTableRef) this.groupTableRef.update();
+    };
+
+    onSuccessCreateStudent = (message) => {
+        this.showSuccess(message);
+        this.setState({dialogOpen: false});
+        if (this.studentTableRef) this.studentTableRef.update();
     };
 
     render() {
@@ -126,6 +135,9 @@ export class Students extends React.Component {
                 <CreateGroupDialog open={this.state.dialogOpen && this.state.dialogType === "groupDialog"}
                                    onClose={() => this.setState({dialogOpen: false})}
                                    onSuccess={this.onSuccessCreateGroup}/>
+                <CreateStudentDialog open={this.state.dialogOpen && this.state.dialogType === "studentDialog"}
+                                     onClose={() => this.setState({dialogOpen: false})}
+                                     onSuccess={this.onSuccessCreateStudent}/>
             </Grid>
         );
     }

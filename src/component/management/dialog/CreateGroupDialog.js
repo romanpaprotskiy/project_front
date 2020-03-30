@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Dialog, DialogTitle} from "@material-ui/core";
+import {Dialog, DialogActions, DialogTitle} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import GroupIcon from "@material-ui/icons/Group";
 import Typography from "@material-ui/core/Typography";
@@ -8,7 +8,6 @@ import TeacherSelect from "../select/TeacherSelect";
 import Button from "@material-ui/core/Button";
 import {ServiceProvider} from "../../service/ServiceProvider";
 import DialogContent from "@material-ui/core/DialogContent";
-import backgroundPaper from "../../../assets/sidebarBackground.jpeg";
 import {RootGroupSelect} from "../select/RootGroupSelect";
 
 export class CreateGroupDialog extends React.Component {
@@ -27,10 +26,6 @@ export class CreateGroupDialog extends React.Component {
         this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
     }
 
-    handleChange = event => {
-        this.setState({selectedParentGroupId: event.target.value});
-    };
-
     onChangeName = event => {
         this.setState({groupName: event.target.value});
     };
@@ -44,7 +39,12 @@ export class CreateGroupDialog extends React.Component {
             teacherId: this.state.selectedTutorId
         };
         this.managementService.createGroup(request);
-        this.setState({submitClicked: false});
+        this.setState({
+            selectedParentGroupId: "",
+            groupName: "",
+            submitClicked: false,
+            selectedTutorId: ""
+        });
         this.props.onSuccess("Group created successfully");
     };
 
@@ -54,13 +54,6 @@ export class CreateGroupDialog extends React.Component {
 
     selectGroup = (value) => {
         this.setState({selectedParentGroupId: value ? value.id : ""});
-    };
-
-    paperStyle = {
-        backgroundImage: `url(${backgroundPaper})`,
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover"
     };
 
     onDialogClose = () => {
@@ -76,7 +69,7 @@ export class CreateGroupDialog extends React.Component {
     render() {
         return (
             <Dialog open={this.props.open} onClose={this.onDialogClose}>
-                <DialogTitle style={this.paperStyle}>
+                <DialogTitle>
                     <Grid item container xs={12} direction="row">
                         <GroupIcon/>
                         <Typography style={{marginLeft: "2vh"}}>
@@ -84,7 +77,7 @@ export class CreateGroupDialog extends React.Component {
                         </Typography>
                     </Grid>
                 </DialogTitle>
-                <DialogContent style={this.paperStyle}>
+                <DialogContent>
                     <Grid item container spacing={2} style={this.formGridStyle}>
                         <Grid item xs={12}>
                             <TextField id="group-name" label="Group Name"
@@ -111,12 +104,14 @@ export class CreateGroupDialog extends React.Component {
                                            this.state.selectedParentGroupId === ""}
                                            disabled={this.state.selectedParentGroupId !== ""}/>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Button color="primary" onClick={this.createGroup}>Create</Button>
-                            <Button color="secondary" onClick={this.props.onClose}>Cancel</Button>
-                        </Grid>
                     </Grid>
                 </DialogContent>
+                <DialogActions>
+                    <Grid item xs={12}>
+                        <Button color="primary" onClick={this.createGroup}>Create</Button>
+                        <Button color="secondary" onClick={this.props.onClose}>Cancel</Button>
+                    </Grid>
+                </DialogActions>
             </Dialog>
         );
     }

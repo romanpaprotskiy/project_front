@@ -56,4 +56,31 @@ export class ManagementService {
             }
         });
     };
+
+    getUsers = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/users/all", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
+    getSubgroups = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/groups/subgroups", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
+    createStudent = async (request) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.post(Urls.BASE_V1_URL + "/students",request,{
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+    };
 }
