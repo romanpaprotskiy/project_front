@@ -45,7 +45,7 @@ export class CreateStudentDialog extends React.Component {
 
     createStudent = () => {
         this.setState({submitClicked: true});
-        if (this.state.userId === "" && this.state.selectedGroupId === "") return;
+        if (this.state.userId === "" || this.state.selectedGroupId === "") return;
         const request = {
             userId: this.state.selectedUserId,
             groupId: this.state.selectedGroupId,

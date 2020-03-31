@@ -1,13 +1,18 @@
 import {Tab} from "./Tab";
-import Urls from "../../url";
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import PeopleIcon from '@material-ui/icons/People';
+import EventIcon from '@material-ui/icons/Event';
+import React from "react";
 
 export class SecurityService {
 
     _tabs = [
         new Tab("Profile", ["GUEST", "STUDENT", "TEACHER", "ADMIN"],
-            Urls.ROOT_URL + "/assets/profile.svg","/main/profile"),
+            <AccountBoxIcon/>, "/main/profile"),
         new Tab("Management", ["TEACHER", "ADMIN"],
-            Urls.ROOT_URL + "/assets/students.svg", "/main/students")
+            <PeopleIcon/>, "/main/students"),
+        new Tab("Subjects and Schedule", ["STUDENT", "TEACHER", "ADMIN"],
+            <EventIcon/>, "/main/subjects")
     ];
 
     currentUserTabs = () => {

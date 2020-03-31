@@ -61,8 +61,12 @@ export class Sidebar extends React.Component {
                             {this.securityService.currentUserTabs().map((item) => (
                                 <ListItem button selected={this.props.location.pathname === item.redirectUri}
                                           key={item.name}
-                                          onClick={() => {this.props.history.push(item.redirectUri)}}>
-                                    <ListItemIcon><img src={item.icon} alt="Not found"/></ListItemIcon>
+                                          onClick={() => {
+                                              this.props.history.push(item.redirectUri)
+                                          }}>
+                                    <ListItemIcon>
+                                        {item.icon}
+                                    </ListItemIcon>
                                     <ListItemText primary={item.name}/>
                                 </ListItem>
                             ))}
