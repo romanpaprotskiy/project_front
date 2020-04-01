@@ -11,4 +11,13 @@ export class SubjectService{
             }
         });
     };
+
+    getSubjectDetails = async (subjectId) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/subjects/" + subjectId + "/details" ,{
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
 }

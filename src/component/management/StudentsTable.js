@@ -73,8 +73,8 @@ export class StudentsTable extends React.Component {
 
     columns = [{label: "Photo", format: data => <Avatar alt="Not found" src={data.user.pictureUrl}/>},
         {label: "Full name", format: data => data.user.firstName + " " + data.user.lastName},
-        {label: "Group", format: data => data.group.parent !== null ? data.group.parent.name : data.group.name},
-        {label: "Sub Group", format: data => data.group.parent !== null ? data.group.name : "-"},
+        {label: "Group", format: data => data.group ? data.group.name : "-"},
+        {label: "Sub Group", format: data => data.subGroup ? data.subGroup.name : "-"},
         {label: "Date of starts", format: data => new Date(data.dateOfEnroll).toLocaleDateString()},
         {label: "Email", format: data => data.user.email},
         {label: "Phone", format: data => data.user.phone},

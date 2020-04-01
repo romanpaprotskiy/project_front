@@ -8,6 +8,7 @@ import {ServiceProvider} from "../../service/ServiceProvider";
 import Button from "@material-ui/core/Button";
 import {GroupSelect} from "../select/GroupSelect";
 import {KeyboardDatePicker} from "@material-ui/pickers";
+import {RootGroupSelect} from "../select/RootGroupSelect";
 
 export class CreateStudentDialog extends React.Component {
 
@@ -19,6 +20,7 @@ export class CreateStudentDialog extends React.Component {
             selectedUserId: "",
             submitClicked: false,
             selectedGroupId: "",
+            selectedSubGroupId: "",
             selectedDate: null
         };
         const provider = ServiceProvider.provider();
@@ -31,6 +33,10 @@ export class CreateStudentDialog extends React.Component {
 
     selectGroup = (value) => {
         this.setState({selectedGroupId: value ? value.id : ""});
+    };
+
+    selectSubGroup = (value) => {
+        this.setState({selectedSubGroupId: value ? value.id : ""});
     };
 
     onClose = () => {
@@ -87,15 +93,21 @@ export class CreateStudentDialog extends React.Component {
                             <UserSelect showAlert={this.props.showAlert}
                                         onSelect={this.selectUser}
                                         required={true}
-                                        error={this.state.selectedUserId === "" && this.state.submitClicked}
-                                        disabled={false}/>
+                                        error={this.state.selectedUserId === "" && this.state.submitClicked}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <GroupSelect showAlert={this.props.showAlert}
-                                         onSelect={this.selectGroup}
+                            <RootGroupSelect showAlert={this.props.showAlert}
+                                             onSelect={this.selectGroup}
+                                             required={true}
+                                             error={this.state.selectedGroupId === "" && this.state.submitClicked}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <GroupSelect id={this.state.selectedGroupId}
+                                         showAlert={this.props.showAlert}
+                                         onSelect={this.selectSubGroup}
                                          required={true}
-                                         error={this.state.selectedGroupId === "" && this.state.submitClicked}
-                                         disabled={false}/>
+                                         error={this.state.selectedSubGroupId === "" && this.state.submitClicked}
+                                         disabled={this.state.selectedGroupId === ""}/>
                         </Grid>
                         <Grid item xs={12}>
                             <KeyboardDatePicker
@@ -108,7 +120,7 @@ export class CreateStudentDialog extends React.Component {
                                 label="Date of starts"
                                 value={this.state.selectedDate}
                                 onChange={this.handleChangeDate}
-                                InputAdornmentProps={{ position: "start" }}
+                                InputAdornmentProps={{position: "start"}}
                             />
                         </Grid>
                     </Grid>

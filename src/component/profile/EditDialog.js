@@ -14,7 +14,7 @@ export class EditDialog extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            birthDate: new Date(props.user.birthDate),
+            birthDate: props.user.birthDate ? new Date(props.user.birthDate) : null,
             phone: props.user.phone,
             skype: props.user.skypeId
         };
@@ -57,6 +57,7 @@ export class EditDialog extends React.Component {
                                             style={this.formControlStyle}/>
                         <FormControl style={this.formControlStyle}>
                             <Input
+                                placeholder="Phone"
                                 value={this.state.phone}
                                 onChange={(e) =>
                                     this.setState({phone: e.target.value})}
@@ -64,6 +65,7 @@ export class EditDialog extends React.Component {
                         </FormControl>
                         <FormControl style={this.formControlStyle}>
                             <Input
+                                placeholder="Skype"
                                 value={this.state.skype}
                                 onChange={(e) =>
                                     this.setState({skype: e.target.value})}

@@ -134,10 +134,12 @@ export class Students extends React.Component {
                          handleClose={this.hideSuccess}/>
                 <CreateGroupDialog open={this.state.dialogOpen && this.state.dialogType === "groupDialog"}
                                    onClose={() => this.setState({dialogOpen: false})}
-                                   onSuccess={this.onSuccessCreateGroup}/>
+                                   onSuccess={this.onSuccessCreateGroup}
+                                   showAlert={this.showAlert}/>
                 <CreateStudentDialog open={this.state.dialogOpen && this.state.dialogType === "studentDialog"}
                                      onClose={() => this.setState({dialogOpen: false})}
-                                     onSuccess={this.onSuccessCreateStudent}/>
+                                     onSuccess={this.onSuccessCreateStudent}
+                                     showAlert={this.showAlert}/>
             </Grid>
         );
     }

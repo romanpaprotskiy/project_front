@@ -45,7 +45,7 @@ export class RootGroupSelect extends React.Component{
                           renderInput={params =>
                               <TextField required={this.props.required} error={this.props.error}
                                          style={{width: "100%"}} {...params}
-                                         label="Parent group" variant="outlined"/>}/>
+                                         label="Group" variant="outlined"/>}/>
         );
     }
 }

@@ -39,6 +39,15 @@ export class ManagementService {
         })
     };
 
+    createSubGroup = async (request) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.post(Urls.BASE_V1_URL + "/groups/subgroup",request,{
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+    };
+
     getTeachers = async () => {
         const accessToken = localStorage.getItem("accessToken");
         return await axios.get(Urls.BASE_V1_URL + "/teacher/all", {
@@ -66,9 +75,9 @@ export class ManagementService {
         });
     };
 
-    getSubgroups = async () => {
+    getSubgroups = async (groupId) => {
         const accessToken = localStorage.getItem("accessToken");
-        return await axios.get(Urls.BASE_V1_URL + "/groups/subgroups", {
+        return await axios.get(Urls.BASE_V1_URL + "/groups/" + groupId + "/subgroups", {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }

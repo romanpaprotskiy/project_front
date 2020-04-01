@@ -30,7 +30,7 @@ export class StudentDetails extends React.Component {
                                     <GroupIcon color="action"/>
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={"Group: " + this.props.student.group.parent?.name}/>
+                            <ListItemText primary={"Group: " + this.props.student.group.name}/>
                         </ListItem>
                         <ListItem>
                             <ListItemAvatar>
@@ -38,7 +38,7 @@ export class StudentDetails extends React.Component {
                                     <GroupIcon color="action"/>
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={"Subgroup: " + this.props.student.group.name}/>
+                            <ListItemText primary={"Subgroup: " + this.props.student.subGroup.name}/>
                         </ListItem>
                         <ListItem>
                             <ListItemAvatar>

@@ -94,7 +94,7 @@ export class SubjectsTable extends React.Component {
                             <TableBody>
                                 {this.state.subjects.map(row => {
                                     return (
-                                        <TableRow hover key={row.id}>
+                                        <TableRow hover key={row.id} onClick={() => this.props.onRowClick(row.id)}>
                                             {this.columns.map(column => {
                                                 return (
                                                     <TableCell key={column.label}>

@@ -16,11 +16,18 @@ export class GroupSelect extends React.Component{
         };
         const provider = ServiceProvider.provider();
         this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
-        this.getSubgroups();
     }
 
-    getSubgroups = () => {
-        this.managementService.getSubgroups()
+    componentDidMount() {
+        if (this.props.id) this.getSubgroups(this.props.id);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.id) this.getSubgroups(this.props.id);
+    }
+
+    getSubgroups = (id) => {
+        this.managementService.getSubgroups(id)
             .then(response => response.data)
             .then(data => this.setState({options: data}))
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
@@ -45,7 +52,7 @@ export class GroupSelect extends React.Component{
                           renderInput={params =>
                               <TextField required={this.props.required} error={this.props.error}
                                          style={{width: "100%"}} {...params}
-                                         label="Group" variant="outlined"/>}
+                                         label="Sub Group" variant="outlined"/>}
             />
         );
     }

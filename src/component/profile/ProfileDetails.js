@@ -22,6 +22,14 @@ export class ProfileDetails extends React.Component {
         backgroundSize: "cover"
     };
 
+    nullCheck = (value) => {
+        return value ? value : " - ";
+    };
+
+    getDate = (date) => {
+        return date ? new Date(date).toLocaleDateString() : " - ";
+    };
+
     render() {
         return (
             <Paper elevation={5} style={this.paperStyle}>
@@ -33,8 +41,7 @@ export class ProfileDetails extends React.Component {
                                     <EventIcon color="action"/>
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={"Date of birth: " +
-                            new Date(this.props.user.birthDate).toLocaleDateString()}/>
+                            <ListItemText primary={"Date of birth: " + this.getDate(this.props.user.birthDate)}/>
                         </ListItem>
                         <ListItem>
                             <ListItemAvatar>
@@ -42,7 +49,7 @@ export class ProfileDetails extends React.Component {
                                     <PhoneIcon color="action"/>
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={"Phone: " + this.props.user.phone}/>
+                            <ListItemText primary={"Phone: " + this.nullCheck(this.props.user.phone)}/>
                         </ListItem>
                         <ListItem>
                             <ListItemAvatar>
@@ -50,7 +57,7 @@ export class ProfileDetails extends React.Component {
                                     <ChatIcon color="action"/>
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={"Skype: " + this.props.user.skypeId}/>
+                            <ListItemText primary={"Skype: " + this.nullCheck(this.props.user.skypeId)}/>
                         </ListItem>
                     </List>
                 </Grid>
