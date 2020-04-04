@@ -1,12 +1,8 @@
 import * as React from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import {ServiceProvider} from "../../service/ServiceProvider";
-import Errors from "../../error/Errors";
 
-export class GroupSelect extends React.Component{
-
-    managementService;
+export class GroupSelect extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -14,24 +10,11 @@ export class GroupSelect extends React.Component{
             open: false,
             options: []
         };
-        const provider = ServiceProvider.provider();
-        this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
     }
 
     componentDidMount() {
         if (this.props.id) this.getSubgroups(this.props.id);
     }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.id) this.getSubgroups(this.props.id);
-    }
-
-    getSubgroups = (id) => {
-        this.managementService.getSubgroups(id)
-            .then(response => response.data)
-            .then(data => this.setState({options: data}))
-            .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
-    };
 
     getOptionLabel = (option) => {
         return option.name;
@@ -44,7 +27,7 @@ export class GroupSelect extends React.Component{
                           onOpen={() => this.setState({open: true})}
                           onClose={() => this.setState({open: false})}
                           onChange={(event, value) => this.props.onSelect(value)}
-                          options={this.state.options}
+                          options={this.props.data}
                           getOptionLabel={option => this.getOptionLabel(option)}
                           style={{width: "80%"}}
                           autoHighlight

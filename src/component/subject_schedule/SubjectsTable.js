@@ -8,6 +8,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableFooter from "@material-ui/core/TableFooter";
 import Button from "@material-ui/core/Button";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from '@material-ui/icons/Delete';
+import Grid from "@material-ui/core/Grid";
 
 export class SubjectsTable extends React.Component {
 
@@ -61,7 +63,11 @@ export class SubjectsTable extends React.Component {
         {label: "ID", format: data => data.id},
         {label: "Course number", format: data => data.courseNumber ? data.courseNumber : "-"},
         {label: "Name", format: data => data.name},
-        {label: "Actions", format: data => <Button><EditIcon/></Button>}
+        {
+            label: "Actions", format: data => <Grid direction="row">
+                <Button><EditIcon/></Button><Button><DeleteIcon/></Button>
+            </Grid>
+        }
     ];
 
     rowsPerPageOptions = [5, 10, 15];
@@ -94,7 +100,8 @@ export class SubjectsTable extends React.Component {
                             <TableBody>
                                 {this.state.subjects.map(row => {
                                     return (
-                                        <TableRow hover key={row.id} onClick={() => this.props.onRowClick(row.id)}>
+                                        <TableRow style={{cursor: "pointer"}} hover
+                                                  key={row.id} onClick={() => this.props.onRowClick(row.id)}>
                                             {this.columns.map(column => {
                                                 return (
                                                     <TableCell key={column.label}>

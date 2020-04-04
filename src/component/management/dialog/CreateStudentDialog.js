@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import {GroupSelect} from "../select/GroupSelect";
 import {KeyboardDatePicker} from "@material-ui/pickers";
 import {RootGroupSelect} from "../select/RootGroupSelect";
+import Errors from "../../error/Errors";
 
 export class CreateStudentDialog extends React.Component {
 
@@ -21,7 +22,8 @@ export class CreateStudentDialog extends React.Component {
             submitClicked: false,
             selectedGroupId: "",
             selectedSubGroupId: "",
-            selectedDate: null
+            selectedDate: null,
+            subGroups: []
         };
         const provider = ServiceProvider.provider();
         this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
@@ -33,6 +35,7 @@ export class CreateStudentDialog extends React.Component {
 
     selectGroup = (value) => {
         this.setState({selectedGroupId: value ? value.id : ""});
+        if (value) this.getSubgroups(value.id);
     };
 
     selectSubGroup = (value) => {
@@ -47,6 +50,13 @@ export class CreateStudentDialog extends React.Component {
             selectedDate: null
         });
         this.props.onClose();
+    };
+
+    getSubgroups = (id) => {
+        this.managementService.getSubgroups(id)
+            .then(response => response.data)
+            .then(data => this.setState({subGroups: data}))
+            .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
     };
 
     createStudent = () => {
@@ -102,7 +112,7 @@ export class CreateStudentDialog extends React.Component {
                                              error={this.state.selectedGroupId === "" && this.state.submitClicked}/>
                         </Grid>
                         <Grid item xs={12}>
-                            <GroupSelect id={this.state.selectedGroupId}
+                            <GroupSelect data={this.state.subGroups}
                                          showAlert={this.props.showAlert}
                                          onSelect={this.selectSubGroup}
                                          required={true}

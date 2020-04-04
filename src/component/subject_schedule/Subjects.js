@@ -5,16 +5,26 @@ import {SubjectsTable} from "./SubjectsTable";
 import {SubjectDetails} from "./SubjectDetails";
 import Alert from "../snackbar/Alert";
 import Success from "../snackbar/Success";
+import {ServiceProvider} from "../service/ServiceProvider";
+import Errors from "../error/Errors";
+import {CreateSubjectItemDial} from "./CreateSubjectItemDial";
+import {SubjectDialog} from "./dialog/SubjectDialog";
 
 export class Subjects extends React.Component {
+
+    subjectService;
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            selectedSubjectId: "",
             alertOpen: false,
-            successOpen: false
+            successOpen: false,
+            detailsData: null,
+            dialogOpen: false,
+            dialogType: ""
         };
+        const provider = ServiceProvider.provider();
+        this.subjectService = provider.getService(provider.service.SUBJECT_SERVICE);
     }
 
     showAlert = (message) => {
@@ -43,19 +53,51 @@ export class Subjects extends React.Component {
         });
     };
 
+    onRowClick = (id) => {
+        this.getBySubject(id);
+    };
+
+    getBySubject = (subjectId) => {
+        this.subjectService.getSubjectDetails(subjectId)
+            .then(response => response.data)
+            .then(data => this.setState({detailsData: data}))
+            .catch(reason => this.showAlert(Errors.getErrorMessage(reason)));
+    };
+
+    handleDialChange = (type) => {
+        switch (type) {
+            case "scheduleDialog":
+                this.setState({dialogOpen: true, dialogType: "scheduleDialog"});
+                break;
+            case "subjectDialog":
+                this.setState({dialogOpen: true, dialogType: "subjectDialog"});
+                break;
+            default:
+                break;
+        }
+    };
+
     render() {
         return (
-            <Grid container direction="row" justify="flex-start" alignItems="flex-start"
+            <Grid container direction="column" justify="flex-start" alignItems="flex-start"
                   style={this.props.mainStyle}>
-                <Grid item xs={4} container direction="column">
-                    <SubjectsTable checked={true}
-                                   onRowClick={(id) => this.setState({selectedSubjectId: id})}
-                                   showAlert={this.showAlert}/>
-                </Grid>
-                <Grid item xs={8} container direction="column">
-                    <SubjectDetails checked={true}
-                                    id={this.state.selectedSubjectId}
-                                    showAlert={this.showAlert}/>
+                <Grid item container direction="row" justify="flex-start" alignItems="flex-start">
+                    <Grid item xs={5} container direction="column">
+                        <Grid item style={{width: "90%"}}>
+                            <CreateSubjectItemDial handleChange={this.handleDialChange}/>
+                        </Grid>
+                        <SubjectsTable checked={true}
+                                       onRowClick={this.onRowClick}
+                                       showAlert={this.showAlert}/>
+                    </Grid>
+                    <Grid item xs={7} container direction="column">
+                        <Grid item style={{width: "90%"}}>
+                            <CreateSubjectItemDial/>
+                        </Grid>
+                        <SubjectDetails checked={this.state.detailsData != null}
+                                        data={this.state.detailsData}
+                                        showAlert={this.showAlert}/>
+                    </Grid>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
@@ -63,6 +105,13 @@ export class Subjects extends React.Component {
                 <Success isOpen={this.state.successOpen}
                          successMessage={this.state.successMessage}
                          handleClose={this.hideSuccess}/>
+                <SubjectDialog open={this.state.dialogOpen && this.state.dialogType === "subjectDialog"}
+                               onClose={() => this.setState({dialogOpen: false})}
+                               onSuccess={(message) => {
+                                   this.setState({dialogOpen: false});
+                                   this.showSuccess(message);
+                               }}
+                               showAlert={this.showAlert}/>
             </Grid>
         );
     }
