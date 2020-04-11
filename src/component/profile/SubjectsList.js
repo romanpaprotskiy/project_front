@@ -7,6 +7,11 @@ import Typography from "@material-ui/core/Typography";
 import {ExpansionPanel, ExpansionPanelDetails, TableBody, TableCell, TableContainer, TableRow} from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import backgroundPaper from "../../assets/sidebarBackground.jpeg";
+import EventIcon from '@material-ui/icons/Event';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 export class SubjectsList extends React.Component {
 
@@ -31,19 +36,18 @@ export class SubjectsList extends React.Component {
                     </Grid>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <TableContainer style={{maxHeight: "20vh"}}>
-                        <Table>
-                            <TableBody>
-                                {this.props.subjects.map(row => (
-                                    <TableRow key={row.id}>
-                                        <TableCell component="th" scope="row">
-                                            {row.name}
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                        <List style={{maxHeight: "20vh"}}>
+                            {this.props.subjects.map(row => {
+                                return <ListItem key={row.id}>
+                                    <ListItemIcon>
+                                        <EventIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        {row.name}
+                                    </ListItemText>
+                                </ListItem>
+                            })}
+                        </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         );

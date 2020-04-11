@@ -19,13 +19,16 @@ export class SubjectDialog extends React.Component {
         super(props, context);
         this.state = {
             name: "",
-            courseNumber: ""
+            courseNumber: "",
+            saveClicked: false
         };
         const provider = ServiceProvider.provider();
         this.subjectService = provider.getService(provider.service.SUBJECT_SERVICE);
     }
 
     save = () => {
+        this.setState({saveClicked: true});
+        if (this.state.name === "" || this.state.courseNumber === "") return;
         const request = {
             name: this.state.name,
             courseNumber: this.state.courseNumber
@@ -35,9 +38,18 @@ export class SubjectDialog extends React.Component {
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
     };
 
+    close = () => {
+        this.setState({
+            name: "",
+            courseNumber: "",
+            saveClicked: false
+        });
+        this.props.onClose();
+    };
+
     render() {
         return (
-            <Dialog open={this.props.open} onClose={this.props.onClose}>
+            <Dialog open={this.props.open} onClose={this.close}>
                 <DialogTitle>
                     <Grid container direction="row">
                         <SubjectIcon/>
@@ -55,6 +67,7 @@ export class SubjectDialog extends React.Component {
                         label="Name"
                         onChange={event => this.setState({name: event.target.value})}
                         fullWidth
+                        error={this.state.saveClicked && this.state.name === ""}
                     />
                     <TextField
                         required
@@ -63,13 +76,14 @@ export class SubjectDialog extends React.Component {
                         label="Course number"
                         onChange={event => this.setState({courseNumber: event.target.value})}
                         fullWidth
+                        error={this.state.saveClicked && this.state.courseNumber === ""}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => this.save()} color="primary">
                         Save
                     </Button>
-                    <Button onClick={this.props.onClose} color="secondary">
+                    <Button onClick={this.close} color="secondary">
                         Cancel
                     </Button>
                 </DialogActions>

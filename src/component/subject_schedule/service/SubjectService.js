@@ -1,11 +1,20 @@
 import axios from "axios";
-import Urls from "../../url";
+import Urls from "../../../url";
 
 export class SubjectService {
 
     getSubjects = async (page, size) => {
         const accessToken = localStorage.getItem("accessToken");
         return await axios.get(Urls.BASE_V1_URL + "/subjects?page=" + page + "&size=" + size, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
+    getSubjectsList = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/subjects/list", {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }
@@ -24,6 +33,15 @@ export class SubjectService {
     createSubject = async (request) => {
         const accessToken = localStorage.getItem("accessToken");
         return await axios.post(Urls.BASE_V1_URL + "/subjects", request, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+    };
+
+    createSchedule = async (request) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.post(Urls.BASE_V1_URL + "/schedule/subject", request, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }

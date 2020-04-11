@@ -3,7 +3,7 @@ import SecurityService from "../security/SecurityService";
 import {LoginService} from "../login/LoginService";
 import {ProfileService} from "../profile/ProfileService";
 import {ManagementService} from "../management/ManagementService";
-import {SubjectService} from "../subject_schedule/SubjectService";
+import {SubjectService} from "../subject_schedule/service/SubjectService";
 
 export class ServiceProvider {
 

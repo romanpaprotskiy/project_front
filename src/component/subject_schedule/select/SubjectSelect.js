@@ -1,12 +1,12 @@
 import * as React from "react";
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 import {ServiceProvider} from "../../service/ServiceProvider";
 import Errors from "../../error/Errors";
-import TextField from "@material-ui/core/TextField";
 
-export class TeacherSelect extends React.Component {
+export class SubjectSelect extends React.Component{
 
-    managementService;
+    subjectService;
 
     constructor(props, context) {
         super(props, context);
@@ -15,26 +15,24 @@ export class TeacherSelect extends React.Component {
             options: []
         };
         const provider = ServiceProvider.provider();
-        this.managementService = provider.getService(provider.service.MANAGEMENT_SERVICE);
-        this.getTeachers();
+        this.subjectService = provider.getService(provider.service.SUBJECT_SERVICE);
+        this.getSubjects();
     }
 
-    getTeachers = () => {
-        this.managementService.getTeachers()
+    getSubjects = () => {
+        this.subjectService.getSubjectsList()
             .then(response => response.data)
             .then(data => this.setState({options: data}))
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
     };
 
     getOptionLabel = (option) => {
-        let scienceTitle = option.scienceTitleName ? option.scienceTitleName : " ";
-        return option.firstName + " "
-            + option.lastName + "\n " + scienceTitle;
+        return option.name;
     };
 
     render() {
         return (
-            <Autocomplete id="teacher_select"
+            <Autocomplete id="subject_select"
                           open={this.state.open}
                           onOpen={() => this.setState({open: true})}
                           onClose={() => this.setState({open: false})}
@@ -46,9 +44,7 @@ export class TeacherSelect extends React.Component {
                           disabled={this.props.disabled}
                           renderInput={params =>
                               <TextField required={this.props.required} error={this.props.error}
-                                         style={{width: "100%"}} {...params} label="Teacher" variant="outlined"/>}/>
+                                         style={{width: "100%"}} {...params} label="Subject" variant="outlined"/>}/>
         );
     }
 }
-
-export default TeacherSelect;

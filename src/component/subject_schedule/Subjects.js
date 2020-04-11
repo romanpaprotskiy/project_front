@@ -9,6 +9,7 @@ import {ServiceProvider} from "../service/ServiceProvider";
 import Errors from "../error/Errors";
 import {CreateSubjectItemDial} from "./CreateSubjectItemDial";
 import {SubjectDialog} from "./dialog/SubjectDialog";
+import {ScheduleDialog} from "./dialog/ScheduleDialog";
 
 export class Subjects extends React.Component {
 
@@ -106,6 +107,13 @@ export class Subjects extends React.Component {
                          successMessage={this.state.successMessage}
                          handleClose={this.hideSuccess}/>
                 <SubjectDialog open={this.state.dialogOpen && this.state.dialogType === "subjectDialog"}
+                               onClose={() => this.setState({dialogOpen: false})}
+                               onSuccess={(message) => {
+                                   this.setState({dialogOpen: false});
+                                   this.showSuccess(message);
+                               }}
+                               showAlert={this.showAlert}/>
+                <ScheduleDialog open={this.state.dialogOpen && this.state.dialogType === "scheduleDialog"}
                                onClose={() => this.setState({dialogOpen: false})}
                                onSuccess={(message) => {
                                    this.setState({dialogOpen: false});
