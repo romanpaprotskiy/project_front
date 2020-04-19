@@ -32,7 +32,7 @@ export class LoginForm extends React.Component {
             <Paper style={this.loginBlockStyle}>
                 <Grid container direction="column" style={{padding: "5vh"}}>
                     <img src={loginIcon} alt="Not found" style={this.loginIconStyle}/>
-                    <h1 style={this.loginTextStyle}>SignIn</h1>
+                    <h1 style={this.loginTextStyle}>Sign In</h1>
                     <Grid item>
                         <GoogleLogin
                             clientId="217658242103-pv74qrnmoku2aqhtgre77kutpfuk1sqe.apps.googleusercontent.com"

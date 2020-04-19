@@ -15,13 +15,19 @@ export class SubjectDetails extends React.Component {
         width: "80%"
     };
 
+    onScheduleDelete = (subjectId) => {
+        this.props.update(subjectId);
+        this.props.showSuccess("Schedule was deleted");
+    };
+
     render() {
         return (
             <Fade in={this.props.checked}>
                 <Grid style={this.paperStyle}>
                     <Grid item container direction="row" spacing={3}>
                         {this.props.data?.map((item, index) => {
-                            return <SubjectDetailsItem key={index} data={item}/>
+                            return <SubjectDetailsItem key={index} data={item}
+                                                       onDelete={this.onScheduleDelete}/>
                         })}
                     </Grid>
                 </Grid>

@@ -59,7 +59,7 @@ export class ScheduleDialog extends React.Component {
             }
         };
         this.subjectService.createSchedule(request)
-            .then(() => this.props.onSuccess("Schedule created succesfully"))
+            .then(() => this.props.onSuccess("Schedule created successfully"))
             .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
         this.setState({
             teacherId: "",

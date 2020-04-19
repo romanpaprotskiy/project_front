@@ -47,4 +47,13 @@ export class SubjectService {
             }
         })
     };
+
+    deleteSchedule = async (id) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.delete(Urls.BASE_V1_URL + "/schedule/" + id +"/subject", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        })
+    };
 }

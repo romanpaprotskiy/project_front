@@ -15,14 +15,24 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import List from "@material-ui/core/List";
 import {StudentDialog} from "./dialog/StudentDialog";
+import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
+import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {ServiceProvider} from "../service/ServiceProvider";
+import Errors from "../error/Errors";
 
 export class SubjectDetailsItem extends React.Component {
+
+    subjectService;
 
     constructor(props, context) {
         super(props, context);
         this.state = {
             dialogOpen: false
         };
+        const provider = ServiceProvider.provider();
+        this.subjectService = provider.getService(provider.service.SUBJECT_SERVICE);
     }
 
     panelStyle = {
@@ -32,6 +42,18 @@ export class SubjectDetailsItem extends React.Component {
         backgroundSize: "cover"
     };
 
+    getTime(time) {
+        const hour = time[0] > 10 ? time[0] : "0" + time[0];
+        const minute = time[1] > 10 ? time[1] : "0" + time[1];
+        return hour + ":" + minute;
+    }
+
+    delete = () => {
+        this.subjectService.deleteSchedule(this.props.data.scheduleId)
+            .then(() => this.props.onDelete(this.props.data.subjectId))
+            .catch(reason => this.props.showAlert(Errors.getErrorMessage(reason)));
+    }
+
     render() {
         return (
             <Grid item container direction="column">
@@ -39,6 +61,18 @@ export class SubjectDetailsItem extends React.Component {
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <EventIcon/>
                         <Typography style={{marginLeft: "1vh"}}>{this.props.data.group.name}</Typography>
+                        <Typography style={{marginLeft: "1vh"}}>
+                            {new Date(this.props.data.schedule.startDate).toLocaleString('en-us', {  weekday: 'long' })}
+                        </Typography>
+                        <Typography style={{marginLeft: "1vh"}}>
+                            {this.getTime(this.props.data.schedule.startTime)}
+                        </Typography>
+                        <Typography style={{marginLeft: "1vh"}}>
+                            -
+                        </Typography>
+                        <Typography style={{marginLeft: "1vh"}}>
+                            {this.getTime(this.props.data.schedule.endTime)}
+                        </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Grid id="group" container direction="row">
@@ -61,7 +95,7 @@ export class SubjectDetailsItem extends React.Component {
                                     </AvatarGroup>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={0.3}>
+                            <Grid item>
                                 <Divider orientation="vertical"/>
                             </Grid>
                             <Grid item container direction="column" xs={5}>
@@ -84,6 +118,16 @@ export class SubjectDetailsItem extends React.Component {
                             </Grid>
                         </Grid>
                     </ExpansionPanelDetails>
+                    <ExpansionPanelActions>
+                        <Button>
+                            <EditIcon/>
+                            <Typography variant="overline">Edit</Typography>
+                        </Button>
+                        <Button onClick={this.delete}>
+                            <DeleteIcon/>
+                            <Typography variant="overline">Delete</Typography>
+                        </Button>
+                    </ExpansionPanelActions>
                 </ExpansionPanel>
                 <StudentDialog open={this.state.dialogOpen}
                                onClose={() => this.setState({dialogOpen: false})}

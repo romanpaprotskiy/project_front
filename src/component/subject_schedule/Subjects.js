@@ -65,13 +65,17 @@ export class Subjects extends React.Component {
             .catch(reason => this.showAlert(Errors.getErrorMessage(reason)));
     };
 
+    updateSubjectDetails = (subjectId) => {
+        this.getBySubject(subjectId);
+    };
+
     handleDialChange = (type) => {
         switch (type) {
             case "scheduleDialog":
-                this.setState({dialogOpen: true, dialogType: "scheduleDialog"});
+                this.setState({dialogOpen: true, dialogType: type});
                 break;
             case "subjectDialog":
-                this.setState({dialogOpen: true, dialogType: "subjectDialog"});
+                this.setState({dialogOpen: true, dialogType: type});
                 break;
             default:
                 break;
@@ -97,7 +101,9 @@ export class Subjects extends React.Component {
                         </Grid>
                         <SubjectDetails checked={this.state.detailsData != null}
                                         data={this.state.detailsData}
-                                        showAlert={this.showAlert}/>
+                                        showSuccess={this.showSuccess}
+                                        showAlert={this.showAlert}
+                                        update={this.updateSubjectDetails}/>
                     </Grid>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
