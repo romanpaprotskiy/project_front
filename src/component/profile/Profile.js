@@ -107,7 +107,7 @@ class Profile extends React.Component {
                         </Grid>
                     </Grid>
                     <Grid item xs={6}>
-                        <ProfileScheduler height={this.state.height}/>
+                        <ProfileScheduler height={this.state.height} data={this.props.data.events}/>
                     </Grid>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}
