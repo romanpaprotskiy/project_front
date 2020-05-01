@@ -56,4 +56,13 @@ export class SubjectService {
             }
         })
     };
+
+    getSchedulesByCurrentMonth = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/schedule/month/current", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
 }

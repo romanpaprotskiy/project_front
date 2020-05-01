@@ -10,6 +10,11 @@ import Errors from "../error/Errors";
 import {CreateSubjectItemDial} from "./CreateSubjectItemDial";
 import {SubjectDialog} from "./dialog/SubjectDialog";
 import {ScheduleDialog} from "./dialog/ScheduleDialog";
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import {ScheduleCalendar} from "./ScheduleCalendar";
+
 
 export class Subjects extends React.Component {
 
@@ -21,11 +26,14 @@ export class Subjects extends React.Component {
             alertOpen: false,
             successOpen: false,
             detailsData: null,
+            rightBlockType: "calendar",
             dialogOpen: false,
-            dialogType: ""
+            dialogType: "",
+            calendarData: []
         };
         const provider = ServiceProvider.provider();
         this.subjectService = provider.getService(provider.service.SUBJECT_SERVICE);
+        this.getCalendarSchedules();
     }
 
     showAlert = (message) => {
@@ -61,7 +69,17 @@ export class Subjects extends React.Component {
     getBySubject = (subjectId) => {
         this.subjectService.getSubjectDetails(subjectId)
             .then(response => response.data)
-            .then(data => this.setState({detailsData: data}))
+            .then(data => {
+                this.setState({detailsData: data});
+                this.setState({rightBlockType: "details"});
+            })
+            .catch(reason => this.showAlert(Errors.getErrorMessage(reason)));
+    };
+
+    getCalendarSchedules = () => {
+        this.subjectService.getSchedulesByCurrentMonth()
+            .then(response => response.data)
+            .then(data => this.setState({calendarData: data}))
             .catch(reason => this.showAlert(Errors.getErrorMessage(reason)));
     };
 
@@ -70,15 +88,24 @@ export class Subjects extends React.Component {
     };
 
     handleDialChange = (type) => {
-        switch (type) {
-            case "scheduleDialog":
-                this.setState({dialogOpen: true, dialogType: type});
-                break;
-            case "subjectDialog":
-                this.setState({dialogOpen: true, dialogType: type});
-                break;
-            default:
-                break;
+        this.setState({dialogOpen: true, dialogType: type});
+    };
+
+    buttonStyle = {
+        marginLeft: "3vh",
+        marginTop: "5vh"
+    };
+
+    rightPanel = () => {
+        switch (this.state.rightBlockType) {
+            case "details":
+                return <SubjectDetails checked={this.state.detailsData != null}
+                                data={this.state.detailsData}
+                                showSuccess={this.showSuccess}
+                                showAlert={this.showAlert}
+                                update={this.updateSubjectDetails}/>;
+            case "calendar":
+                return <ScheduleCalendar height={600} data={this.state.calendarData}/>;
         }
     };
 
@@ -96,14 +123,23 @@ export class Subjects extends React.Component {
                                        showAlert={this.showAlert}/>
                     </Grid>
                     <Grid item xs={7} container direction="column">
-                        <Grid item style={{width: "90%"}}>
-                            <CreateSubjectItemDial/>
+                        <Grid item container direction="row-reverse" style={{width: "85%"}}>
+                            <Button style={this.buttonStyle} variant="contained"
+                                    onClick={() => {
+                                        this.getCalendarSchedules();
+                                        this.setState({rightBlockType: "calendar"});
+                                    }}>
+                                <Grid item container>
+                                    <Grid item xs={2}>
+                                        <DateRangeIcon/>
+                                    </Grid>
+                                    <Grid item xs={10}>
+                                        <Typography variant="button">Calendar view</Typography>
+                                    </Grid>
+                                </Grid>
+                            </Button>
                         </Grid>
-                        <SubjectDetails checked={this.state.detailsData != null}
-                                        data={this.state.detailsData}
-                                        showSuccess={this.showSuccess}
-                                        showAlert={this.showAlert}
-                                        update={this.updateSubjectDetails}/>
+                        {this.rightPanel()}
                     </Grid>
                 </Grid>
                 <Alert isOpen={this.state.alertOpen}
