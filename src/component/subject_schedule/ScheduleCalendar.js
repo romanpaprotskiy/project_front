@@ -4,10 +4,9 @@ import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 import {
     Appointments,
-    AppointmentTooltip,
+    AppointmentTooltip, DateNavigator,
     MonthView,
-    Scheduler,
-    WeekView
+    Scheduler, TodayButton, Toolbar
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 export class ScheduleCalendar extends React.Component{
@@ -23,18 +22,11 @@ export class ScheduleCalendar extends React.Component{
         backgroundSize: "cover"
     };
 
-    data = [{
-        title: "Introduction to CS",
-        startDate: "2020-04-21T13:00",
-        endDate: "2020-04-21T14:00",
-    }];
-
     formatNumber = (number) => {
         return number < 10 ?  "0" + number : number;
     };
 
     formatDateTime = (dateTime) => {
-        console.log(dateTime);
         return dateTime[0] + "-" + this.formatNumber(dateTime[1]) + "-"
             +  this.formatNumber(dateTime[2]) + "T"
             +  this.formatNumber(dateTime[3]) + ":"

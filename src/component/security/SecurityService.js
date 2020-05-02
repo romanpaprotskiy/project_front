@@ -12,7 +12,9 @@ export class SecurityService {
         new Tab("Management", ["TEACHER", "ADMIN"],
             <PeopleIcon/>, "/main/students"),
         new Tab("Subjects and Schedule", ["STUDENT", "TEACHER", "ADMIN"],
-            <EventIcon/>, "/main/subjects")
+            <EventIcon/>, "/main/subjects"),
+        new Tab("Events", ["STUDENT", "TEACHER", "ADMIN"],
+            <EventIcon/>, "/main/events")
     ];
 
     currentUserTabs = () => {

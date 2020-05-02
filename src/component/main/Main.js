@@ -10,6 +10,7 @@ import loginBackground from "../../assets/login_back.jpg";
 import {Switch} from "react-router";
 import {Students} from "../management/Students";
 import {Subjects} from "../subject_schedule/Subjects";
+import {Events} from "../events/Events";
 
 class Main extends React.Component {
 
@@ -98,6 +99,7 @@ class Main extends React.Component {
                                component={() => <Profile data={this.state.userData} mainStyle={this.mainStyle}/>}/>
                         <Route path="/main/students" component={() => <Students mainStyle={this.mainStyle}/>}/>
                         <Route path="/main/subjects" component={() => <Subjects mainStyle={this.mainStyle}/>}/>
+                        <Route path="/main/events" component={() => <Events mainStyle={this.mainStyle}/>}/>
                     </Switch>
                     <Alert isOpen={this.state.alertOpen}
                            alertMessage={this.state.alertMessage}
