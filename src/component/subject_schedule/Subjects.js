@@ -93,17 +93,18 @@ export class Subjects extends React.Component {
 
     buttonStyle = {
         marginLeft: "3vh",
-        marginTop: "5vh"
+        marginTop: "5vh",
+        marginBottom: "1vh"
     };
 
     rightPanel = () => {
         switch (this.state.rightBlockType) {
             case "details":
                 return <SubjectDetails checked={this.state.detailsData != null}
-                                data={this.state.detailsData}
-                                showSuccess={this.showSuccess}
-                                showAlert={this.showAlert}
-                                update={this.updateSubjectDetails}/>;
+                                       data={this.state.detailsData}
+                                       showSuccess={this.showSuccess}
+                                       showAlert={this.showAlert}
+                                       update={this.updateSubjectDetails}/>;
             case "calendar":
                 return <ScheduleCalendar height={600} data={this.state.calendarData}/>;
         }
@@ -128,15 +129,8 @@ export class Subjects extends React.Component {
                                     onClick={() => {
                                         this.getCalendarSchedules();
                                         this.setState({rightBlockType: "calendar"});
-                                    }}>
-                                <Grid item container>
-                                    <Grid item xs={2}>
-                                        <DateRangeIcon/>
-                                    </Grid>
-                                    <Grid item xs={10}>
-                                        <Typography variant="button">Calendar view</Typography>
-                                    </Grid>
-                                </Grid>
+                                    }} startIcon={<DateRangeIcon/>} size="large">
+                                <Typography variant="button">Calendar view</Typography>
                             </Button>
                         </Grid>
                         {this.rightPanel()}
@@ -156,12 +150,12 @@ export class Subjects extends React.Component {
                                }}
                                showAlert={this.showAlert}/>
                 <ScheduleDialog open={this.state.dialogOpen && this.state.dialogType === "scheduleDialog"}
-                               onClose={() => this.setState({dialogOpen: false})}
-                               onSuccess={(message) => {
-                                   this.setState({dialogOpen: false});
-                                   this.showSuccess(message);
-                               }}
-                               showAlert={this.showAlert}/>
+                                onClose={() => this.setState({dialogOpen: false})}
+                                onSuccess={(message) => {
+                                    this.setState({dialogOpen: false});
+                                    this.showSuccess(message);
+                                }}
+                                showAlert={this.showAlert}/>
             </Grid>
         );
     }

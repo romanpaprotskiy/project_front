@@ -4,10 +4,11 @@ import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
 import {
     Appointments,
-    AppointmentTooltip, DateNavigator,
+    AppointmentTooltip, DateNavigator, DragDropProvider,
     MonthView,
     Scheduler, TodayButton, Toolbar
 } from "@devexpress/dx-react-scheduler-material-ui";
+import {EditingState} from "@devexpress/dx-react-scheduler";
 
 export class ScheduleCalendar extends React.Component{
 
