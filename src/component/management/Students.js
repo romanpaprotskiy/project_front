@@ -58,7 +58,7 @@ export class Students extends React.Component {
     };
 
     studentTableStyle = {
-        width: "60%"
+        width: "95%"
     };
 
     paperStyle = {
@@ -107,7 +107,7 @@ export class Students extends React.Component {
             <Grid container direction="row" style={this.props.mainStyle}>
                 <Grid item container direction="column" justify="flex-start" alignItems="flex-start"
                       style={this.studentTableStyle}>
-                    <Grid item container direction="row">
+                    <Grid item container direction="row" >
                         <Grid item container direction="row">
                             <TextField variant="outlined" style={this.paperStyle}
                                        InputProps={{
@@ -121,7 +121,9 @@ export class Students extends React.Component {
                                 <Button onClick={() => this.setState({table: "groups"})}>Groups</Button>
                                 <Button onClick={() => this.setState({table: "teachers"})}>Teachers</Button>
                             </ButtonGroup>
-                            <CreateNewItemDial handleChange={this.handleChangeDial}/>
+                            <Grid item container direction="row-reverse" style={{width: "55%"}}>
+                                <CreateNewItemDial handleChange={this.handleChangeDial}/>
+                            </Grid>
                         </Grid>
                         {this.switchTable()}
                     </Grid>
