@@ -9,6 +9,7 @@ import {TextField} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import {KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers";
+import {AttendeesSelect} from "./AttendeesSelect";
 
 export class EventDialog extends React.Component {
 
@@ -19,26 +20,34 @@ export class EventDialog extends React.Component {
             date: null,
             startTime: null,
             endTime: null,
-            saveClicked: false
+            saveClicked: false,
+            attendees: [{type: ""}]
         };
     }
 
     formGridStyle = {
         margin: "1vh",
-        width: "40vh"
+        width: "50vh"
     };
 
     close = () => {
         this.setState({
             summary: "",
-            saveClicked: false
+            saveClicked: false,
+            attendees: [{}]
         });
         this.props.onClose();
     };
 
+    attendeesSelected = (type) => {
+        let array = Array.from(this.state.attendees);
+        array.push({});
+        this.setState({attendees: array});
+    };
+
     render() {
         return (
-            <Dialog open={this.props.open} onClose={this.props.onClose}>
+            <Dialog open={this.props.open} onClose={this.close}>
                 <DialogTitle>
                     <Grid container direction="row">
                         <EventNoteIcon/>
@@ -56,6 +65,15 @@ export class EventDialog extends React.Component {
                                        onChange={event => this.setState({summary: event.target.value})}
                                        fullWidth
                                        error={this.state.saveClicked && this.state.summary === ""}
+                                       style={{width: "80%"}}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField margin="dense"
+                                       id="location"
+                                       label="Location"
+                                       onChange={event => this.setState({location: event.target.value})}
+                                       fullWidth
+                                       error={this.state.saveClicked && this.state.location === ""}
                                        style={{width: "80%"}}/>
                         </Grid>
                         <Grid item xs={12}>
@@ -95,6 +113,11 @@ export class EventDialog extends React.Component {
                                 />
                             </Grid>
                         </Grid>
+                        {this.state.attendees.map((row, index) => {
+                            return <Grid key={index} item xs={12}>
+                                <AttendeesSelect onSelected={(id, type) => this.attendeesSelected(type)}/>
+                            </Grid>
+                        })}
                     </Grid>
                 </DialogContent>
                 <DialogActions>
