@@ -1,26 +1,24 @@
 import * as React from "react";
-import FormLabel from "@material-ui/core/FormLabel";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import {RootGroupSelect} from "../../management/select/RootGroupSelect";
-import {SubjectSelect} from "../../subject_schedule/select/SubjectSelect";
-import TeacherSelect from "../../management/select/TeacherSelect";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import {RestrictionList} from "./RestrictionList";
+import {ServiceProvider} from "../../service/ServiceProvider";
 
 export class AttendeesSelect extends React.Component {
+
+    eventService;
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            type: this.props.type ? this.props.type : "",
             addClicked: false,
             submitClicked: false,
-            selected: ""
+            selected: "",
+            restrictionTabValue: 0
         }
+        const serviceProvider = ServiceProvider.provider();
+        this.eventService = serviceProvider.getService(serviceProvider.service.EVENT_SERVICE);
     }
 
     select = (value) => {
@@ -28,25 +26,28 @@ export class AttendeesSelect extends React.Component {
         if (value) this.props.onSelected(value.id, this.state.type);
     };
 
-    handleChangeRadio = (event) => {
-        this.setState({type: event.target.value});
+    handleChangeRestriction = (event, newValue) => {
+        this.setState({restrictionTabValue: newValue});
     };
 
-    switchSelect = () => {
-        switch (this.state.type) {
-            case "group":
-                return <RootGroupSelect showAlert={this.props.showAlert}
-                                        onSelect={this.select}
-                                        required={true}
-                                        error={this.state.selectedGroupId === "" && this.state.submitClicked}/>
-            case "subject" :
-                return <SubjectSelect onSelect={this.select} required/>;
-            case "teacher":
-                return <TeacherSelect showAlert={this.props.showAlert}
-                                      onSelect={this.select}
-                                      error={this.state.selected === "" &&
-                                      this.state.submitClicked}
-                                      disabled={false}/>;
+    getTeachers = async () => {
+        return await this.eventService.getTeachers()
+            .then(response => response.data);
+    };
+
+    getStudents = async () => {
+        return await this.eventService.getStudents()
+            .then(response => response.data);
+    };
+
+    switchList = () => {
+        const value = this.state.restrictionTabValue;
+        console.log(value === 1);
+        switch (value) {
+            case 0:
+                return <RestrictionList value={value} index={0} data={this.getTeachers}/>
+            case 1:
+                return <RestrictionList value={value} index={1} data={this.getStudents}/>
             default:
                 return undefined;
         }
@@ -54,25 +55,18 @@ export class AttendeesSelect extends React.Component {
 
     render() {
         return (
-            <Grid item>
-                {!this.state.addClicked ? <FormControl component="fieldset">
-                    <FormLabel control="legend">Attendees</FormLabel>
-                    <Button onClick={() => this.setState({addClicked: true})}
-                            color="primary" startIcon={<AddIcon/>}>Add</Button>
-                </FormControl> : null}
-                {this.state.addClicked ? <FormControl component="fieldset">
-                    <FormLabel component="legend">Attendees</FormLabel>
-                    <RadioGroup row value={this.state.type} onChange={this.handleChangeRadio}>
-                        <FormControlLabel value="group" control={<Radio color="primary"/>} label="Group"/>
-                        <FormControlLabel value="student" control={<Radio color="primary"/>}
-                                          label="Student"/>
-                        <FormControlLabel value="subject" control={<Radio color="primary"/>}
-                                          label="Subject"/>
-                        <FormControlLabel value="teacher" control={<Radio color="primary"/>}
-                                          label="Teacher"/>
-                    </RadioGroup>
-                </FormControl> : null}
-                {this.switchSelect()}
+            <Grid item style={{width: "85%"}}>
+                <Tabs
+                    value={this.state.restrictionTabValue}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    onChange={this.handleChangeRestriction}
+                    variant="scrollable">
+                    <Tab label="Teacher" id={0}/>
+                    <Tab label="Student" id={1}/>
+                    <Tab label="Group" id={2}/>
+                </Tabs>
+                {this.switchList()}
             </Grid>
         );
     }

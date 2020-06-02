@@ -4,6 +4,7 @@ import {LoginService} from "../login/LoginService";
 import {ProfileService} from "../profile/ProfileService";
 import {ManagementService} from "../management/ManagementService";
 import {SubjectService} from "../subject_schedule/service/SubjectService";
+import {EventService} from "../events/EventService";
 
 export class ServiceProvider {
 
@@ -25,7 +26,8 @@ export class ServiceProvider {
         LOGIN_SERVICE: "login_service",
         PROFILE_SERVICE: "profile_service",
         MANAGEMENT_SERVICE: "management_service",
-        SUBJECT_SERVICE: "subject_service"
+        SUBJECT_SERVICE: "subject_service",
+        EVENT_SERVICE: "event_service"
     };
 
     registerServices() {
@@ -34,6 +36,7 @@ export class ServiceProvider {
         this.serviceStorage.register(this.service.PROFILE_SERVICE, new ProfileService());
         this.serviceStorage.register(this.service.MANAGEMENT_SERVICE, new ManagementService());
         this.serviceStorage.register(this.service.SUBJECT_SERVICE, new SubjectService());
+        this.serviceStorage.register(this.service.EVENT_SERVICE, new EventService());
     }
 
     getService(service) {

@@ -39,7 +39,7 @@ export class EventDialog extends React.Component {
         this.props.onClose();
     };
 
-    attendeesSelected = (type) => {
+    attendeesSelected = () => {
         let array = Array.from(this.state.attendees);
         array.push({});
         this.setState({attendees: array});
@@ -64,6 +64,7 @@ export class EventDialog extends React.Component {
                                        label="Summary"
                                        onChange={event => this.setState({summary: event.target.value})}
                                        fullWidth
+                                       variant="filled"
                                        error={this.state.saveClicked && this.state.summary === ""}
                                        style={{width: "80%"}}/>
                         </Grid>
@@ -73,6 +74,7 @@ export class EventDialog extends React.Component {
                                        label="Location"
                                        onChange={event => this.setState({location: event.target.value})}
                                        fullWidth
+                                       variant="filled"
                                        error={this.state.saveClicked && this.state.location === ""}
                                        style={{width: "80%"}}/>
                         </Grid>
@@ -115,7 +117,7 @@ export class EventDialog extends React.Component {
                         </Grid>
                         {this.state.attendees.map((row, index) => {
                             return <Grid key={index} item xs={12}>
-                                <AttendeesSelect onSelected={(id, type) => this.attendeesSelected(type)}/>
+                                <AttendeesSelect onSelected={() => this.attendeesSelected()}/>
                             </Grid>
                         })}
                     </Grid>
