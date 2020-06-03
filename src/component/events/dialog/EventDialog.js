@@ -9,9 +9,13 @@ import {TextField} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import {KeyboardDatePicker, KeyboardTimePicker} from "@material-ui/pickers";
-import {AttendeesSelect} from "./AttendeesSelect";
+import {AttendeesList} from "./AttendeesList";
+import {ServiceProvider} from "../../service/ServiceProvider";
+import {SelectedAttendees} from "./SelectedAttendees";
 
 export class EventDialog extends React.Component {
+
+    eventService;
 
     constructor(props, context) {
         super(props, context);
@@ -21,8 +25,10 @@ export class EventDialog extends React.Component {
             startTime: null,
             endTime: null,
             saveClicked: false,
-            attendees: [{type: ""}]
+            selected: []
         };
+        const serviceProvider = ServiceProvider.provider();
+        this.eventService = serviceProvider.getService(serviceProvider.service.EVENT_SERVICE);
     }
 
     formGridStyle = {
@@ -34,15 +40,23 @@ export class EventDialog extends React.Component {
         this.setState({
             summary: "",
             saveClicked: false,
-            attendees: [{}]
+            selected: []
         });
         this.props.onClose();
     };
 
-    attendeesSelected = () => {
-        let array = Array.from(this.state.attendees);
-        array.push({});
-        this.setState({attendees: array});
+    getUsers = async (search) => {
+        if (!search) search = "";
+        return await this.eventService.getUsers(search)
+            .then(response => response.data);
+    };
+
+    onSelect = (item) => {
+        let selected = this.state.selected;
+        if (selected.indexOf(item) !== -1)
+            selected.splice(selected.indexOf(item), 1);
+        else selected.push(item);
+        this.setState({selected: selected});
     };
 
     render() {
@@ -115,22 +129,24 @@ export class EventDialog extends React.Component {
                                 />
                             </Grid>
                         </Grid>
-                        {this.state.attendees.map((row, index) => {
-                            return <Grid key={index} item xs={12}>
-                                <AttendeesSelect onSelected={() => this.attendeesSelected()}/>
-                            </Grid>
-                        })}
+                        <Grid item xs={12}>
+                            <Typography style={{marginLeft: "1vh", marginBottom: "2vh"}}>Selected attendees</Typography>
+                            <SelectedAttendees data={this.state.selected} onSelect={this.onSelect}/>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography style={{marginLeft: "1vh", marginBottom: "2vh"}}>Attendees</Typography>
+                            <AttendeesList selected={this.state.selected} data={this.getUsers}
+                                           onSelect={this.onSelect} onSearch={this.getUsers}/>
+                        </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <DialogActions>
-                        <Button onClick={() => this.save()} color="primary">
-                            Save
-                        </Button>
-                        <Button onClick={this.close} color="secondary">
-                            Cancel
-                        </Button>
-                    </DialogActions>
+                    <Button onClick={() => this.save()} color="primary">
+                        Save
+                    </Button>
+                    <Button onClick={this.close} color="secondary">
+                        Cancel
+                    </Button>
                 </DialogActions>
             </Dialog>
         );

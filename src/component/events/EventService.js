@@ -21,6 +21,16 @@ export class EventService {
         });
     };
 
+    getUsers = async (search) => {
+        const accessToken = localStorage.getItem("accessToken");
+        const request = {search: search};
+        return await axios.post(Urls.BASE_V1_URL + "/users/all/search", request, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
 }
 
 export default EventService;
