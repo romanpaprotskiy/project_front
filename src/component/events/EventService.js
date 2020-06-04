@@ -31,6 +31,15 @@ export class EventService {
         });
     };
 
+    getEvents = async () => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.get(Urls.BASE_V1_URL + "/events/current", {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
 }
 
 export default EventService;

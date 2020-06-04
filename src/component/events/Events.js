@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import EditIcon from '@material-ui/icons/Edit';
 import {EventDialog} from "./dialog/EventDialog";
+
 export class Events extends React.Component {
 
     constructor(props, context) {
@@ -21,9 +22,9 @@ export class Events extends React.Component {
     switchView = () => {
         switch (this.state.tabValue) {
             case "calendar":
-                return <EventsCalendar height={630} checked={this.state.tabValue === "calendar"}/>;
+                return <EventsCalendar data={this.state.data} height={630} checked={this.state.tabValue === "calendar"}/>;
             case "list":
-                return <EventsTable checked={this.state.tabValue === "list"}/>;
+                return <EventsTable data={this.state.data} checked={this.state.tabValue === "list"}/>;
             default:
                 return undefined;
         }
