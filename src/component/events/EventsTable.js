@@ -14,9 +14,11 @@ import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Grid from "@material-ui/core/Grid";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import {ServiceProvider, ServiceProvider as serviceProvider} from "../service/ServiceProvider";
 
 export class EventsTable extends React.Component {
 
+    eventService;
 
     constructor(props, context) {
         super(props, context);
@@ -27,7 +29,16 @@ export class EventsTable extends React.Component {
             events: [],
             rowsPerPage: 0
         };
+        const serviceProvider = ServiceProvider.provider();
+        this.eventService = serviceProvider.getService(serviceProvider.service.EVENT_SERVICE);
+        this.getEvents();
     }
+
+    getEvents = () => {
+        this.eventService.getEvents()
+            .then(response => response.data)
+            .then(data => this.setState({events: data}));
+    };
 
     paperStyle = {
         marginLeft: "5vh",
@@ -47,13 +58,25 @@ export class EventsTable extends React.Component {
         this.setState({size: event.target.value});
     };
 
-    columns = [{label: "Summary", format: data => data.googleEvent.title},
-        {label: "Start date", format: data => new Date(data.googleEvent.startDate).toLocaleDateString()},
-        {label: "End date", format: data => new Date(data.googleEvent.endDate).toLocaleDateString()},
-        {label: "Users", format: data => this.usersGroup(data.users)},
+    formatNumber = (number) => {
+        return number < 10 ?  "0" + number : number;
+    };
+
+    formatDateTime = (dateTime) => {
+        return dateTime[0] + "-" + this.formatNumber(dateTime[1]) + "-"
+            +  this.formatNumber(dateTime[2]) + "T"
+            +  this.formatNumber(dateTime[3]) + ":"
+            + this.formatNumber(dateTime[4]);
+    };
+
+    columns = [{label: "Summary", format: data => data.title},
+        {label: "Start date", format: data => this.formatDateTime(data.startDate)},
+        {label: "End date", format: data => this.formatDateTime(data.endDate)},
+        {label: "Attendees", format: data => this.usersGroup(data.attendees)},
         {
             label: "Actions", format: data => <Grid direction="row">
-                <Button><EditIcon/></Button><Button><DeleteIcon/></Button>
+                <Button><EditIcon/></Button>
+                <Button><DeleteIcon onClick={() => this.eventService.deleteEvent(data.eventId)}/></Button>
             </Grid>
         }];
 

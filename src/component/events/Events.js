@@ -7,6 +7,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from "@material-ui/core/Fab";
 import EditIcon from '@material-ui/icons/Edit';
 import {EventDialog} from "./dialog/EventDialog";
+import Alert from "../snackbar/Alert";
+import Success from "../snackbar/Success";
 
 export class Events extends React.Component {
 
@@ -15,16 +17,44 @@ export class Events extends React.Component {
         this.state = {
             tabValue: "calendar",
             open: false,
-            dialogOpen: false
+            dialogOpen: false,
+            alertOpen: false,
+            successOpen: false
         };
     }
+
+    showAlert = (message) => {
+        this.setState({
+            alertOpen: true
+        });
+        if (message != null) this.setState({alertMessage: message});
+    };
+
+    hideSuccess = () => {
+        this.setState({
+            successOpen: false
+        });
+    };
+
+    showSuccess = (message) => {
+        this.setState({
+            successOpen: true
+        });
+        if (message != null) this.setState({successMessage: message});
+    };
+
+    hideAlert = () => {
+        this.setState({
+            alertOpen: false
+        });
+    };
 
     switchView = () => {
         switch (this.state.tabValue) {
             case "calendar":
-                return <EventsCalendar data={this.state.data} height={630} checked={this.state.tabValue === "calendar"}/>;
+                return <EventsCalendar height={630} checked={this.state.tabValue === "calendar"}/>;
             case "list":
-                return <EventsTable data={this.state.data} checked={this.state.tabValue === "list"}/>;
+                return <EventsTable checked={this.state.tabValue === "list"}/>;
             default:
                 return undefined;
         }
@@ -47,13 +77,16 @@ export class Events extends React.Component {
                          onClick={() => this.setState({dialogOpen: true})}>
                         <AddIcon/>
                     </Fab>
-                    <Fab color="secondary" aria-label="edit" style={{marginRight: "1vh"}}>
-                        <EditIcon/>
-                    </Fab>
                 </Grid>
                 {this.switchView()}
                 <EventDialog open={this.state.dialogOpen}
                              onClose={() => this.setState({dialogOpen: false})}/>
+                <Alert isOpen={this.state.alertOpen}
+                       alertMessage={this.state.alertMessage}
+                       handleClose={this.hideAlert}/>
+                <Success isOpen={this.state.successOpen}
+                         successMessage={this.state.successMessage}
+                         handleClose={this.hideSuccess}/>
             </Grid>
         );
     }

@@ -42,7 +42,7 @@ export class EventsCalendar extends React.Component {
     };
 
     formatDateTime = (dateTime) => {
-        return dateTime[0] + "-" + this.formatNumber(dateTime[1]) + "-"
+         return dateTime[0] + "-" + this.formatNumber(dateTime[1]) + "-"
             +  this.formatNumber(dateTime[2]) + "T"
             +  this.formatNumber(dateTime[3]) + ":"
             + this.formatNumber(dateTime[4]);
@@ -55,9 +55,9 @@ export class EventsCalendar extends React.Component {
                     <Paper style={this.paperStyle}>
                         <Scheduler height={this.props.height} firstDayOfWeek={1} data={this.state.data?.map(el => {
                             return {
-                                title: el.subjectName + " [" + el.groupName + "]" ,
-                                startDate: this.formatDateTime(el.startDateTime),
-                                endDate: this.formatDateTime(el.endDateTime)
+                                title: el.title ,
+                                startDate: this.formatDateTime(el.startDate),
+                                endDate: this.formatDateTime(el.endDate)
                             };
                         })}>
                             <MonthView/>

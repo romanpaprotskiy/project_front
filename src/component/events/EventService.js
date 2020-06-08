@@ -40,6 +40,24 @@ export class EventService {
         });
     };
 
+    createEvent = async (request) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.post(Urls.BASE_V1_URL + "/events", request, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
+    deleteEvent = async (eventId) => {
+        const accessToken = localStorage.getItem("accessToken");
+        return await axios.delete(Urls.BASE_V1_URL + "/events/" + eventId, {
+            headers: {
+                Authorization: 'Bearer ' + accessToken
+            }
+        });
+    };
+
 }
 
 export default EventService;

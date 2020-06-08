@@ -25,7 +25,8 @@ export class EventDialog extends React.Component {
             startTime: null,
             endTime: null,
             saveClicked: false,
-            selected: []
+            selected: [],
+            location: ""
         };
         const serviceProvider = ServiceProvider.provider();
         this.eventService = serviceProvider.getService(serviceProvider.service.EVENT_SERVICE);
@@ -39,8 +40,34 @@ export class EventDialog extends React.Component {
     close = () => {
         this.setState({
             summary: "",
+            date: null,
+            startTime: null,
+            endTime: null,
             saveClicked: false,
-            selected: []
+            selected: [],
+            location: ""
+        });
+        this.props.onClose();
+    };
+
+    save = () => {
+        const request = {
+            title: this.state.summary,
+            date: new Date(this.state.date).toISOString(),
+            startTime: new Date(this.state.startTime).toLocaleTimeString(),
+            endTime: new Date(this.state.endTime).toLocaleTimeString(),
+            location: this.state.location,
+            attendees: this.state.selected.map(e => e.email)
+        };
+        this.eventService.createEvent(request);
+        this.setState({
+            summary: "",
+            date: null,
+            startTime: null,
+            endTime: null,
+            saveClicked: false,
+            selected: [],
+            location: ""
         });
         this.props.onClose();
     };
