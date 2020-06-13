@@ -70,6 +70,7 @@ export class EventDialog extends React.Component {
             location: ""
         });
         this.props.onClose();
+        this.props.onSuccess("Event created successfully");
     };
 
     getUsers = async (search) => {

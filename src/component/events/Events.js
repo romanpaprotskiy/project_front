@@ -80,7 +80,8 @@ export class Events extends React.Component {
                 </Grid>
                 {this.switchView()}
                 <EventDialog open={this.state.dialogOpen}
-                             onClose={() => this.setState({dialogOpen: false})}/>
+                             onClose={() => this.setState({dialogOpen: false})}
+                             onSuccess={this.showSuccess}/>
                 <Alert isOpen={this.state.alertOpen}
                        alertMessage={this.state.alertMessage}
                        handleClose={this.hideAlert}/>

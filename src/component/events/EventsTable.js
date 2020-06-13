@@ -69,6 +69,11 @@ export class EventsTable extends React.Component {
             + this.formatNumber(dateTime[4]);
     };
 
+    deleteEvent = (eventId) => {
+        this.eventService.deleteEvent(eventId);
+        this.getEvents();
+    };
+
     columns = [{label: "Summary", format: data => data.title},
         {label: "Start date", format: data => this.formatDateTime(data.startDate)},
         {label: "End date", format: data => this.formatDateTime(data.endDate)},
@@ -76,7 +81,7 @@ export class EventsTable extends React.Component {
         {
             label: "Actions", format: data => <Grid direction="row">
                 <Button><EditIcon/></Button>
-                <Button><DeleteIcon onClick={() => this.eventService.deleteEvent(data.eventId)}/></Button>
+                <Button><DeleteIcon onClick={() => this.deleteEvent(data.eventId)}/></Button>
             </Grid>
         }];
 
